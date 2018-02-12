@@ -1,10 +1,10 @@
 [(#ID_MP_MESSAGE|oui)
-  [(#AUTORISER{modifier,mp_message,#ID_MP_MESSAGE}|sinon_interdire_acces)]
+	[(#AUTORISER{modifier,mp_message,#ID_MP_MESSAGE}|sinon_interdire_acces)]
 ]
 
 
 [(#ID_MP_MESSAGE|non)
-  [(#AUTORISER{creer,mp_message}|sinon_interdire_acces)]
+	[(#AUTORISER{creer,mp_message}|sinon_interdire_acces)]
 ]
 
 #SET{redirect,#ENV{redirect}|sinon{#ENV{lier_trad,#ID_MP_MESSAGE}|?{#ENV{lier_trad,#ID_MP_MESSAGE}|generer_url_entite{mp_message},#URL_ECRIRE{mp_messages}}}}
@@ -13,23 +13,23 @@
 
 <div class="cadre-formulaire-editer">
 <div class="entete-formulaire">
-  [(#ID_MP_MESSAGE|oui)
-  [(#GET{redirect}|icone_verticale{<:icone_retour:>,mp_message,'',left retour[(#ENV{retourajax,''}|oui)ajax preload]})]
-  ]
-  [
-    [(#ID_MP_MESSAGE|?{<:mp_message:icone_modifier_mp_message:>,<:mp_message:icone_creer_mp_message:>})]
-    <h1>(#ENV{titre,#INFO_TITRE{mp_message,#ID_MP_MESSAGE}|sinon{<:info_sans_titre:>}})</h1>
-  ]
+	[(#ID_MP_MESSAGE|oui)
+	[(#GET{redirect}|icone_verticale{<:icone_retour:>,mp_message,'',left retour[(#ENV{retourajax,''}|oui)ajax preload]})]
+	]
+	[
+		[(#ID_MP_MESSAGE|?{<:mp_message:icone_modifier_mp_message:>,<:mp_message:icone_creer_mp_message:>})]
+		<h1>(#ENV{titre,#INFO_TITRE{mp_message,#ID_MP_MESSAGE}|sinon{<:info_sans_titre:>}})</h1>
+	]
 </div>
 
 #SET{redirect,#ENV{redirect,#ID_MP_MESSAGE|generer_url_entite{mp_message}}}
 [(#ENV{retourajax,''}|oui)
-  #SET{redirect,'javascript:if (window.jQuery) jQuery(".entete-formulaire .retour a").followLink();'}
-  <div class="ajax">
+	#SET{redirect,'javascript:if (window.jQuery) jQuery(".entete-formulaire .retour a").followLink();'}
+	<div class="ajax">
 ]
-    [(#FORMULAIRE_EDITER_MP_MESSAGE{#ENV{id_mp_message,oui}, #GET{redirect}, #ENV{associer_objet}, #ENV{lier_trad}})]
+		[(#FORMULAIRE_EDITER_MP_MESSAGE{#ENV{id_mp_message,oui}, #GET{redirect}, #ENV{associer_objet}, #ENV{lier_trad}})]
 [(#ENV{retourajax,''}|oui)
-  </div>
-  <script type="text/javascript">/*<!\[CDATA\[*/reloadExecPage('#ENV{exec}');/*\]\]>*/</script>
+	</div>
+	<script type="text/javascript">/*<!\[CDATA\[*/reloadExecPage('#ENV{exec}');/*\]\]>*/</script>
 ]
 </div>
