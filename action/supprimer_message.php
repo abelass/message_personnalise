@@ -24,7 +24,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  *     ```
  *     [(#AUTORISER{supprimer, message, #ID_MESSAGE}|oui)
  *         [(#BOUTON_ACTION{<:message:supprimer_message:>,
- *             #URL_ACTION_AUTEUR{supprimer_message, #ID_MESSAGE, #URL_ECRIRE{messages}},
+ *             #URL_ACTION_AUTEUR{supprimer_message, #ID_MESSAGE, #URL_ECRIRE{mp_messages}},
  *             danger, <:message:confirmer_supprimer_message:>})]
  *     ]
  *     ```
@@ -34,7 +34,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  *     [(#AUTORISER{supprimer, message, #ID_MESSAGE}|oui)
  *         [(#BOUTON_ACTION{
  *             [(#CHEMIN_IMAGE{message-del-24.png}|balise_img{<:message:supprimer_message:>}|concat{' ',#VAL{<:message:supprimer_message:>}|wrap{<b>}}|trim)],
- *             #URL_ACTION_AUTEUR{supprimer_message, #ID_MESSAGE, #URL_ECRIRE{messages}},
+ *             #URL_ACTION_AUTEUR{supprimer_message, #ID_MESSAGE, #URL_ECRIRE{mp_messages}},
  *             icone s24 horizontale danger message-del-24, <:message:confirmer_supprimer_message:>})]
  *     ]
  *     ```
@@ -60,7 +60,7 @@ function action_supprimer_message_dist($arg=null) {
 
 	// cas suppression
 	if ($arg) {
-		sql_delete('spip_messages',  'id_message=' . sql_quote($arg));
+		sql_delete('spip_mp_messages',  'id_message=' . sql_quote($arg));
 	}
 	else {
 		spip_log("action_supprimer_message_dist $arg pas compris");

@@ -1,0 +1,6 @@
+Only in ../plugins/fabrique_auto/message_personnalise/: message_personnalise_autorisations.php
+diff -r -x . -x .. -x fabrique_diff.diff -x fabrique_message_personnalise.php ../plugins/fabrique_auto/.backup/message_personnalise/paquet.xml ../plugins/fabrique_auto/message_personnalise/paquet.xml
+12c12
+< 		Paquet généré le 2018-02-12 14:24:31
+---
+> 		Paquet généré le 2018-02-12 14:28:19

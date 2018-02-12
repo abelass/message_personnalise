@@ -2,7 +2,7 @@
 
 /**
  *  Fichier généré par la Fabrique de plugin v6
- *   le 2018-02-12 14:16:11
+ *   le 2018-02-12 14:28:19
  *
  *  Ce fichier de sauvegarde peut servir à recréer
  *  votre plugin avec le plugin «Fabrique» qui a servi à le créer.
@@ -32,6 +32,10 @@ $data = array (
     'nom' => 'Message personnalisé',
     'slogan' => 'Permet de personnaliser certain message  système',
     'description' => 'Permet de personnaliser les messages système rendus personnalisables par un le créateur du messages (souven un plugin)',
+    'logo' => 
+    array (
+      0 => '',
+    ),
     'version' => '1.0.0',
     'auteur' => 'Rainer Müller',
     'auteur_lien' => '',
@@ -46,10 +50,9 @@ $data = array (
     'formulaire_config_titre' => 'Paramètres message personnalisé',
     'fichiers' => 
     array (
-      0 => 'autorisations',
-      1 => 'fonctions',
-      2 => 'options',
-      3 => 'pipelines',
+      0 => 'fonctions',
+      1 => 'options',
+      2 => 'pipelines',
     ),
     'inserer' => 
     array (
@@ -91,7 +94,7 @@ $data = array (
         12 => '',
       ),
       'logo_variantes' => '',
-      'table' => 'spip_messages',
+      'table' => 'spip_mp_messages',
       'cle_primaire' => 'id_message',
       'cle_primaire_sql' => 'bigint(21) NOT NULL',
       'table_type' => 'message',
@@ -196,7 +199,7 @@ $data = array (
         0 => 'lang',
         1 => 'id_trad',
       ),
-      'champ_date' => '',
+      'champ_date' => 'date',
       'statut' => 'on',
       'chaines' => 
       array (

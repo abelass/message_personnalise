@@ -8,7 +8,7 @@
 	[(#AUTORISER{creer,message}|sinon_interdire_acces)]
 ]
 
-#SET{redirect,#ENV{redirect}|sinon{#ENV{lier_trad,#ID_MESSAGE}|?{#ENV{lier_trad,#ID_MESSAGE}|generer_url_entite{message},#URL_ECRIRE{messages}}}}
+#SET{redirect,#ENV{redirect}|sinon{#ENV{lier_trad,#ID_MESSAGE}|?{#ENV{lier_trad,#ID_MESSAGE}|generer_url_entite{message},#URL_ECRIRE{mp_messages}}}}
 
 
 

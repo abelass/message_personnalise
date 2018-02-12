@@ -9,7 +9,7 @@
 	schema="1.0.0" 
 >
 	<!--
-		Paquet généré le 2018-02-12 14:16:11
+		Paquet généré le 2018-02-12 14:28:19
 		(Vous pouvez bien entendu supprimer ces commentaires) 
 	-->
 
@@ -51,5 +51,5 @@
 	<pipeline nom="affiche_milieu" inclure="message_personnalise_pipelines.php" /> 
 	<pipeline nom="optimiser_base_disparus" inclure="message_personnalise_pipelines.php" /> 
 
-	<menu nom="messages" titre="message:titre_messages" parent="menu_edition" icone="images/message-16.png" action="messages" /> 
+	<menu nom="mp_messages" titre="message:titre_mp_messages" parent="menu_edition" icone="images/message-16.png" action="mp_messages" /> 
 </paquet>

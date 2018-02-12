@@ -27,12 +27,12 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'icone_modifier_message' => 'Modifier ce message',
 	'info_1_message' => 'Un message',
 	'info_aucun_message' => 'Aucun message',
-	'info_messages_auteur' => 'Les messages de cet auteur',
-	'info_nb_messages' => '@nb@ messages',
+	'info_mp_messages_auteur' => 'Les messages de cet auteur',
+	'info_nb_mp_messages' => '@nb@ messages',
 
 	// R
 	'retirer_lien_message' => 'Retirer ce message',
-	'retirer_tous_liens_messages' => 'Retirer tous les messages',
+	'retirer_tous_liens_mp_messages' => 'Retirer tous les messages',
 
 	// S
 	'supprimer_message' => 'Supprimer cet message',
@@ -45,7 +45,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'titre_langue_message' => 'Langue de ce message',
 	'titre_logo_message' => 'Logo de ce message',
 	'titre_message' => 'Message',
-	'titre_messages' => 'Messages',
-	'titre_messages_rubrique' => 'Messages de la rubrique',
+	'titre_mp_messages' => 'Messages',
+	'titre_mp_messages_rubrique' => 'Messages de la rubrique',
 	'titre_objets_lies_message' => 'Liés à ce message',
 );

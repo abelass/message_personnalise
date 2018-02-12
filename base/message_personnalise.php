@@ -25,7 +25,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  */
 function message_personnalise_declarer_tables_interfaces($interfaces) {
 
-	$interfaces['table_des_tables']['messages'] = 'messages';
+	$interfaces['table_des_tables']['mp_messages'] = 'mp_messages';
 
 	return $interfaces;
 }
@@ -42,9 +42,10 @@ function message_personnalise_declarer_tables_interfaces($interfaces) {
  */
 function message_personnalise_declarer_tables_objets_sql($tables) {
 
-	$tables['spip_messages'] = array(
+	$tables['spip_mp_messages'] = array(
 		'type' => 'message',
 		'principale' => 'oui',
+		'table_objet_surnoms' => array('mpmessage'), // table_objet('message') => 'mp_messages' 
 		'field'=> array(
 			'id_message'         => 'bigint(21) NOT NULL',
 			'titre'              => 'varchar(50) NOT NULL DEFAULT ""',
@@ -53,6 +54,7 @@ function message_personnalise_declarer_tables_objets_sql($tables) {
 			'declencheur_qui'    => 'varchar(50) NOT NULL DEFAULT ""',
 			'descriptif'         => 'text NOT NULL DEFAULT ""',
 			'texte'              => 'text NOT NULL DEFAULT ""',
+			'date'               => 'datetime NOT NULL DEFAULT "0000-00-00 00:00:00"',
 			'statut'             => 'varchar(20)  DEFAULT "0" NOT NULL',
 			'lang'               => 'VARCHAR(10) NOT NULL DEFAULT ""',
 			'langue_choisie'     => 'VARCHAR(3) DEFAULT "non"',
@@ -66,11 +68,11 @@ function message_personnalise_declarer_tables_objets_sql($tables) {
 			'KEY statut'         => 'statut',
 		),
 		'titre' => 'titre AS titre, lang AS lang',
-		 #'date' => '',
+		'date' => 'date',
 		'champs_editables'  => array('titre', 'sujet', 'declencheur_statut', 'declencheur_qui', 'descriptif', 'texte'),
 		'champs_versionnes' => array('titre', 'sujet', 'declencheur_statut', 'declencheur_qui', 'descriptif', 'texte'),
 		'rechercher_champs' => array("titre" => 10, "sujet" => 5, "descriptif" => 5, "texte" => 8),
-		'tables_jointures'  => array('spip_messages_liens'),
+		'tables_jointures'  => array('spip_mp_messages_liens'),
 		'statut_textes_instituer' => array(
 			'prepa'    => 'texte_statut_en_cours_redaction',
 			'prop'     => 'texte_statut_propose_evaluation',
@@ -107,7 +109,7 @@ function message_personnalise_declarer_tables_objets_sql($tables) {
  */
 function message_personnalise_declarer_tables_auxiliaires($tables) {
 
-	$tables['spip_messages_liens'] = array(
+	$tables['spip_mp_messages_liens'] = array(
 		'field' => array(
 			'id_message'         => 'bigint(21) DEFAULT "0" NOT NULL',
 			'id_objet'           => 'bigint(21) DEFAULT "0" NOT NULL',

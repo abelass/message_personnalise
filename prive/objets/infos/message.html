@@ -1,9 +1,9 @@
-<BOUCLE_message(MESSAGES){id_message=#ENV{id}}{statut?}>
+<BOUCLE_message(MP_MESSAGES){id_message=#ENV{id}}{statut?}>
 <div class="infos">
 [(#SET{texte_objet,<:message:titre_message:>})]
 <div class="numero"><:titre_cadre_numero_objet{objet=#GET{texte_objet}}:><p>#ID_MESSAGE</p></div>
 
-[(#FORMULAIRE_INSTITUER_OBJET{messages,#ID_MESSAGE})]
+[(#FORMULAIRE_INSTITUER_OBJET{mp_messages,#ID_MESSAGE})]
 
 <div class='nb_elements'><!--nb_elements--></div>
 
@@ -12,15 +12,15 @@
 	Bouton voir en ligne
 
 ]
-<BOUCLE_publie(MESSAGES){id_message}>
+<BOUCLE_publie(MP_MESSAGES){id_message}>
 	[(#VAL{redirect}
-		|generer_url_action{type=messages&id=#ID_MESSAGE}
+		|generer_url_action{type=mp_messages&id=#ID_MESSAGE}
 		|parametre_url{var_mode,calcul}
 		|icone_horizontale{<:icone_voir_en_ligne:>,racine})]
 </BOUCLE_publie>
-	[(#AUTORISER{previsualiser,messages,#ID_MESSAGE,'',#ARRAY{statut,#STATUT}})
+	[(#AUTORISER{previsualiser,mp_messages,#ID_MESSAGE,'',#ARRAY{statut,#STATUT}})
 		[(#VAL{redirect}
-			|generer_url_action{type=messages&id=#ID_MESSAGE}
+			|generer_url_action{type=mp_messages&id=#ID_MESSAGE}
 			|parametre_url{var_mode,preview}
 			|icone_horizontale{<:previsualiser:>,preview})]
 	]

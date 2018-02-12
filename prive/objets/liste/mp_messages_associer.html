@@ -1,19 +1,20 @@
 [(#SET{defaut_tri,#ARRAY{
 	multi titre,1,
+	date,-1,
 	id_message,1
 }})
 ]
 #SET{exclus,#ENV**{exclus,#ENV{objet_source}|lister_objets_lies{#ENV{objet},#ENV{id_objet},#ENV{_objet_lien}}}}
-#SET{debut,#ENV{debutmesa,#EVAL{_request("debutmesa");}}}
-<B_liste_messages>
+#SET{debut,#ENV{debutmp_a,#EVAL{_request("debutmp_a");}}}
+<B_liste_mp_messages>
 [(#REM) En cas de pagination indirecte @32, il faut refaire le set car la boucle
 a mis a jour la valeur avec la page reelle]
-#SET{debut,#ENV{debutmesa,#EVAL{_request("debutmesa");}}}
+#SET{debut,#ENV{debutmp_a,#EVAL{_request("debutmp_a");}}}
 #SET{afficher_lettres,#TRI|=={'multi titre'}|oui}
 #ANCRE_PAGINATION
-<div class="liste-objets liste-objets-associer messages">
+<div class="liste-objets liste-objets-associer mp_messages">
 <table class="spip liste">
-[<caption><span class="caption"><strong>(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{message:info_1_message,message:info_nb_messages}})</strong>
+[<caption><span class="caption"><strong>(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{message:info_1_message,message:info_nb_mp_messages}})</strong>
 <span class="recherche">
 	<label for="recherche-#ENV{id}"><:info_rechercher_02:></label>
 	<input type="text" class="recherche" name="recherche" id="recherche-#ENV{id}" value="#ENV{recherche}" />
@@ -23,11 +24,11 @@ a mis a jour la valeur avec la page reelle]
 </caption>]
 	<thead>
 		#SET{p,''}
-		<BOUCLE_lettre(MESSAGES){tout}{!id_message IN #GET{exclus}}{where?}{recherche?}{statut?}
+		<BOUCLE_lettre(MP_MESSAGES){tout}{!id_message IN #GET{exclus}}{where?}{recherche?}{statut?}
 			{tri #ENV{par,multi titre},#GET{defaut_tri}}{id_message==#GET{afficher_lettres}|?{'.*','A'}}>[
 		(#TITRE**|extraire_multi|initiale|unique|oui)
 		[(#SET{p,#GET{p}|concat{
-		#SELF|parametre_url{debutmesa,@#ID_MESSAGE}|ancre_url{paginationmesa}|afficher_initiale{#TITRE**|extraire_multi|initiale{},#COMPTEUR_BOUCLE,#GET{debut},#ENV{nb,10}}
+		#SELF|parametre_url{debutmp_a,@#ID_MESSAGE}|ancre_url{paginationmp_a}|afficher_initiale{#TITRE**|extraire_multi|initiale{},#COMPTEUR_BOUCLE,#GET{debut},#ENV{nb,10}}
 		}})]
 		]#SAUTER{#ENV{nb,10}|moins{#COMPTEUR_BOUCLE|=={1}|?{2,1}}}</BOUCLE_lettre>[
 		(#SET{p,
@@ -44,8 +45,8 @@ a mis a jour la valeur avec la page reelle]
 		</tr>
 	</thead>
 	<tbody>
-	<BOUCLE_liste_messages(MESSAGES){!id_message IN #GET{exclus}}{where?}{recherche?}{statut?}
-		{tri #ENV{par,multi titre},#GET{defaut_tri}}{pagination #ENV{nb,10} mesa}>
+	<BOUCLE_liste_mp_messages(MP_MESSAGES){!id_message IN #GET{exclus}}{where?}{recherche?}{statut?}
+		{tri #ENV{par,multi titre},#GET{defaut_tri}}{pagination #ENV{nb,10} mp_a}>
 		<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})][ (#EXPOSE|unique)][ (#TITRE**|extraire_multi|initiale|=={#ENV{i}}|?{on}|unique)]">
 			<td class="statut">[(#STATUT|puce_statut{message})]</td> 
 			<td class="titre">[(#LOGO_MESSAGE|image_reduire{20,20})]<a href="[(#ID_MESSAGE|generer_url_entite{message})]">#TITRE</a></td>
@@ -53,13 +54,13 @@ a mis a jour la valeur avec la page reelle]
 				<button type="submit" class="button link add" name="ajouter_lien\[message-#ID_MESSAGE-#OBJET-#ID_OBJET\]" value="+"><:message:ajouter_lien_message:> [(#CHEMIN_IMAGE{ajouter-12.png}|balise_img{'+'})]</button>
 			</td>
 		</tr>
-	</BOUCLE_liste_messages>
+	</BOUCLE_liste_mp_messages>
 	</tbody>
 </table>
 [<p class="pagination">(#PAGINATION{prive})</p>]
 </div>
-</B_liste_messages>[(#ENV{recherche}|oui)
-<div class="liste-objets liste-objets-associer messages caption-wrap">
+</B_liste_mp_messages>[(#ENV{recherche}|oui)
+<div class="liste-objets liste-objets-associer mp_messages caption-wrap">
 <span class="caption"><strong>[(#VAL{info_recherche_auteur_zero}|_T{#ARRAY{cherche_auteur,#ENV{recherche}}})]</strong>
 <span class="recherche">
 	<label for="recherche-#ENV{id}"><:info_rechercher_02:></label>
@@ -68,4 +69,4 @@ a mis a jour la valeur avec la page reelle]
 </span>
 </span>
 </div>
-]<//B_liste_messages>
+]<//B_liste_mp_messages>

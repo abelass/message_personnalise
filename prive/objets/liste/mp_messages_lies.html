@@ -1,26 +1,27 @@
 [(#SET{defaut_tri,#ARRAY{
 	multi titre,1,
+	date,-1,
 	id_message,1
 }})
 ]
 #SET{selection,#ENV**{selection,#ENV{objet_source}|lister_objets_lies{#ENV{objet},#ENV{id_objet},#ENV{_objet_lien}}}}
-#SET{debut,#ENV{debutmesl,#EVAL{_request("debutmesl");}}}
-<B_liste_messages>
+#SET{debut,#ENV{debutmp_l,#EVAL{_request("debutmp_l");}}}
+<B_liste_mp_messages>
 [(#REM) En cas de pagination indirecte @32, il faut refaire le set car la boucle
 a mis a jour la valeur avec la page reelle]
-#SET{debut,#ENV{debutmesl,#EVAL{_request("debutmesl");}}}
+#SET{debut,#ENV{debutmp_l,#EVAL{_request("debutmp_l");}}}
 #SET{afficher_lettres,#TRI|=={'multi titre'}|oui}
 #ANCRE_PAGINATION
-<div class="liste-objets liste-objets-lies messages">
+<div class="liste-objets liste-objets-lies mp_messages">
 <table class="spip liste">
-[<caption><strong class="caption">(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{message:info_1_message,message:info_nb_messages}})</strong></caption>]
+[<caption><strong class="caption">(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{message:info_1_message,message:info_nb_mp_messages}})</strong></caption>]
 	<thead>
 		#SET{p,''}
-		<BOUCLE_lettre(MESSAGES){tout}{id_message IN #GET{selection}}{where?}{statut?}
+		<BOUCLE_lettre(MP_MESSAGES){tout}{id_message IN #GET{selection}}{where?}{statut?}
 			{tri #ENV{par,multi titre},#GET{defaut_tri}}{id_message==#GET{afficher_lettres}|?{'.*','A'}}>[
 		(#TITRE**|extraire_multi|initiale|unique|oui)
 		[(#SET{p,#GET{p}|concat{
-		#SELF|parametre_url{debutmesl,@#ID_MESSAGE}|ancre_url{paginationmesl}|afficher_initiale{#TITRE**|extraire_multi|initiale{},#COMPTEUR_BOUCLE,#GET{debut},#ENV{nb,10}}
+		#SELF|parametre_url{debutmp_l,@#ID_MESSAGE}|ancre_url{paginationmp_l}|afficher_initiale{#TITRE**|extraire_multi|initiale{},#COMPTEUR_BOUCLE,#GET{debut},#ENV{nb,10}}
 		}})]
 		]#SAUTER{#ENV{nb,10}|moins{#COMPTEUR_BOUCLE|=={1}|?{2,1}}}</BOUCLE_lettre>[
 		(#SET{p,
@@ -37,8 +38,8 @@ a mis a jour la valeur avec la page reelle]
 		</tr>
 	</thead>
 	<tbody>
-	<BOUCLE_liste_messages(MESSAGES){id_message IN #GET{selection}}{statut?}
-		{tri #ENV{par,multi titre},#GET{defaut_tri}}{pagination #ENV{nb,10} mesl}>
+	<BOUCLE_liste_mp_messages(MP_MESSAGES){id_message IN #GET{selection}}{statut?}
+		{tri #ENV{par,multi titre},#GET{defaut_tri}}{pagination #ENV{nb,10} mp_l}>
 		<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})][ (#EXPOSE|unique)][ (#TITRE**|extraire_multi|initiale|=={#ENV{i}}|?{on}|unique)][(#ID_MESSAGE|=={#ENV{id_lien_ajoute}}|oui)append]">
 			<td class="statut">[(#STATUT|puce_statut{message})]</td> 
 			<td class="titre">[(#LOGO_MESSAGE|image_reduire{20,20})]<a href="[(#ID_MESSAGE|generer_url_entite{message})]">#TITRE</a></td>
@@ -49,14 +50,14 @@ a mis a jour la valeur avec la page reelle]
 				]
 			</td>
 		</tr>
-	</BOUCLE_liste_messages>
+	</BOUCLE_liste_mp_messages>
 	</tbody>
 </table>
 [<p class="pagination">(#PAGINATION{prive})</p>]
-[(#GRAND_TOTAL|>{3}|oui)<div class="action"><button type="submit" class="button link" name="supprimer_lien\[message-*-#OBJET-#ID_OBJET\]" value="X"><:message:retirer_tous_liens_messages:> [(#CHEMIN_IMAGE{supprimer-8.png}|balise_img{'X'})]</button></div>]
+[(#GRAND_TOTAL|>{3}|oui)<div class="action"><button type="submit" class="button link" name="supprimer_lien\[message-*-#OBJET-#ID_OBJET\]" value="X"><:message:retirer_tous_liens_mp_messages:> [(#CHEMIN_IMAGE{supprimer-8.png}|balise_img{'X'})]</button></div>]
 </div>
-</B_liste_messages>
-<div class="liste-objets liste-objets-lies messages caption-wrap">
+</B_liste_mp_messages>
+<div class="liste-objets liste-objets-lies mp_messages caption-wrap">
 	<strong class="caption">[(#ENV*{titre,<:message:info_aucun_message:>})]</strong>
 </div>
-<//B_liste_messages>
+<//B_liste_mp_messages>

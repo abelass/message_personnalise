@@ -1,7 +1,7 @@
 [(#AUTORISER{voir,message,#ID_MESSAGE}|sinon_interdire_acces)]
 [(#SET{url_voir,#VAL{message}|objet_info{url_voir}})]
 [(#SET{url_edit,#VAL{message}|objet_info{url_edit}})]
-<BOUCLE_message(MESSAGES){id_message}{statut==.*}{si #ENV{exec}|=={#GET{url_voir}}}>
+<BOUCLE_message(MP_MESSAGES){id_message}{statut==.*}{si #ENV{exec}|=={#GET{url_voir}}}>
 [(#BOITE_OUVRIR{[
 	[(#AUTORISER{modifier,message,#ID_MESSAGE})
 		[(#ID_MESSAGE|afficher_qui_edite{message}|non)
@@ -39,9 +39,9 @@
 
 <div class="nettoyeur"></div>
 <div class="liste">
-	<BOUCLE_objetslies(spip_messages_liens){id_message}{0,1}><h3><:message:titre_objets_lies_message:></h3></BOUCLE_objetslies>
+	<BOUCLE_objetslies(spip_mp_messages_liens){id_message}{0,1}><h3><:message:titre_objets_lies_message:></h3></BOUCLE_objetslies>
 
-	<BOUCLE_listeobjets(spip_messages_liens){id_message}{fusion objet}{par objet}>
+	<BOUCLE_listeobjets(spip_mp_messages_liens){id_message}{fusion objet}{par objet}>
 		#SET{table,#OBJET|table_objet}
 		[(#SET{titre,[#OBJET:info_(#GET{table})_liees_message]})]
 		[(#SET{liste,#VAL{prive/objets/liste/#GET{table}}|trouver_fond|?{#GET{table},objets_lies_message}})]

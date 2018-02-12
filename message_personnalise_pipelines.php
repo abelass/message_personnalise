@@ -36,10 +36,10 @@ function message_personnalise_affiche_milieu($flux) {
 
 
 
-	// messages sur les articles
+	// mp_messages sur les articles
 	if (!$e['edition'] and in_array($e['type'], array('article'))) {
 		$texte .= recuperer_fond('prive/objets/editer/liens', array(
-			'table_source' => 'messages',
+			'table_source' => 'mp_messages',
 			'objet' => $e['type'],
 			'id_objet' => $flux['args'][$e['id_table_objet']]
 		));
@@ -74,7 +74,7 @@ function message_personnalise_optimiser_base_disparus($flux) {
 	include_spip('action/editer_liens');
 	$flux['data'] += objet_optimiser_liens(array('message'=>'*'), '*');
 
-	sql_delete('spip_messages', "statut='poubelle' AND maj < " . $flux['args']['date']);
+	sql_delete('spip_mp_messages', "statut='poubelle' AND maj < " . $flux['args']['date']);
 
 	return $flux;
 }
