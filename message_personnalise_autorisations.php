@@ -10,7 +10,7 @@
  */
 
 if (!defined('_ECRIRE_INC_VERSION')) {
-  return;
+	return;
 }
 
 
@@ -28,13 +28,13 @@ function message_personnalise_autoriser() {
 
 /* Exemple
 function autoriser_message_personnalise_configurer_dist($faire, $type, $id, $qui, $opt) {
-  // type est un objet (la plupart du temps) ou une chose.
-  // autoriser('configurer', '_message_personnalise') => $type = 'message_personnalise'
-  // au choix :
-  return autoriser('webmestre', $type, $id, $qui, $opt); // seulement les webmestres
-  return autoriser('configurer', '', $id, $qui, $opt); // seulement les administrateurs complets
-  return $qui['statut'] == '0minirezo'; // seulement les administrateurs (même les restreints)
-  // ...
+	// type est un objet (la plupart du temps) ou une chose.
+	// autoriser('configurer', '_message_personnalise') => $type = 'message_personnalise'
+	// au choix :
+	return autoriser('webmestre', $type, $id, $qui, $opt); // seulement les webmestres
+	return autoriser('configurer', '', $id, $qui, $opt); // seulement les administrateurs complets
+	return $qui['statut'] == '0minirezo'; // seulement les administrateurs (même les restreints)
+	// ...
 }
 */
 
@@ -53,12 +53,12 @@ function autoriser_message_personnalise_configurer_dist($faire, $type, $id, $qui
  * @return bool          true s'il a le droit, false sinon
 **/
 function autoriser_mpmessages_menu_dist($faire, $type, $id, $qui, $opt) {
-  return true;
+	return true;
 }
 
 
 /**
- * Autorisation de créer (mpmessages)
+ * Autorisation de créer (mpmessage)
  *
  * @param  string $faire Action demandée
  * @param  string $type  Type d'objet sur lequel appliquer l'action
@@ -67,12 +67,12 @@ function autoriser_mpmessages_menu_dist($faire, $type, $id, $qui, $opt) {
  * @param  array  $opt   Options de cette autorisation
  * @return bool          true s'il a le droit, false sinon
 **/
-function autoriser_mpmessages_creer_dist($faire, $type, $id, $qui, $opt) {
-  return in_array($qui['statut'], array('0minirezo', '1comite'));
+function autoriser_mpmessage_creer_dist($faire, $type, $id, $qui, $opt) {
+	return in_array($qui['statut'], array('0minirezo', '1comite'));
 }
 
 /**
- * Autorisation de voir (mpmessages)
+ * Autorisation de voir (mpmessage)
  *
  * @param  string $faire Action demandée
  * @param  string $type  Type d'objet sur lequel appliquer l'action
@@ -81,12 +81,12 @@ function autoriser_mpmessages_creer_dist($faire, $type, $id, $qui, $opt) {
  * @param  array  $opt   Options de cette autorisation
  * @return bool          true s'il a le droit, false sinon
 **/
-function autoriser_mpmessages_voir_dist($faire, $type, $id, $qui, $opt) {
-  return true;
+function autoriser_mpmessage_voir_dist($faire, $type, $id, $qui, $opt) {
+	return true;
 }
 
 /**
- * Autorisation de modifier (message)
+ * Autorisation de modifier (mpmessage)
  *
  * @param  string $faire Action demandée
  * @param  string $type  Type d'objet sur lequel appliquer l'action
@@ -95,12 +95,12 @@ function autoriser_mpmessages_voir_dist($faire, $type, $id, $qui, $opt) {
  * @param  array  $opt   Options de cette autorisation
  * @return bool          true s'il a le droit, false sinon
 **/
-function autoriser_mpmessages_modifier_dist($faire, $type, $id, $qui, $opt) {
-  return in_array($qui['statut'], array('0minirezo', '1comite'));
+function autoriser_mpmessage_modifier_dist($faire, $type, $id, $qui, $opt) {
+	return in_array($qui['statut'], array('0minirezo', '1comite'));
 }
 
 /**
- * Autorisation de supprimer (mpmessages)
+ * Autorisation de supprimer (mpmessage)
  *
  * @param  string $faire Action demandée
  * @param  string $type  Type d'objet sur lequel appliquer l'action
@@ -109,8 +109,8 @@ function autoriser_mpmessages_modifier_dist($faire, $type, $id, $qui, $opt) {
  * @param  array  $opt   Options de cette autorisation
  * @return bool          true s'il a le droit, false sinon
 **/
-function autoriser_mpmessages_supprimer_dist($faire, $type, $id, $qui, $opt) {
-  return $qui['statut'] == '0minirezo' and !$qui['restreint'];
+function autoriser_mpmessage_supprimer_dist($faire, $type, $id, $qui, $opt) {
+	return $qui['statut'] == '0minirezo' and !$qui['restreint'];
 }
 
 
@@ -125,6 +125,6 @@ function autoriser_mpmessages_supprimer_dist($faire, $type, $id, $qui, $opt) {
  * @param  array  $opt   Options de cette autorisation
  * @return bool          true s'il a le droit, false sinon
 **/
-function autoriser_mpmessages_associer_dist($faire, $type, $id, $qui, $opt) {
-  return $qui['statut'] == '0minirezo' and !$qui['restreint'];
+function autoriser_associermpmessages_dist($faire, $type, $id, $qui, $opt) {
+	return $qui['statut'] == '0minirezo' and !$qui['restreint'];
 }

@@ -1,7 +1,7 @@
 [(#SET{defaut_tri,#ARRAY{
 	multi titre,1,
 	date,-1,
-	id_message,1
+	id_mp_message,1
 }})
 ]
 #SET{selection,#ENV**{selection,#ENV{objet_source}|lister_objets_lies{#ENV{objet},#ENV{id_objet},#ENV{_objet_lien}}}}
@@ -14,14 +14,14 @@ a mis a jour la valeur avec la page reelle]
 #ANCRE_PAGINATION
 <div class="liste-objets liste-objets-lies mp_messages">
 <table class="spip liste">
-[<caption><strong class="caption">(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{message:info_1_message,message:info_nb_mp_messages}})</strong></caption>]
+[<caption><strong class="caption">(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{mp_message:info_1_mp_message,mp_message:info_nb_mp_messages}})</strong></caption>]
 	<thead>
 		#SET{p,''}
-		<BOUCLE_lettre(MP_MESSAGES){tout}{id_message IN #GET{selection}}{where?}{statut?}
-			{tri #ENV{par,multi titre},#GET{defaut_tri}}{id_message==#GET{afficher_lettres}|?{'.*','A'}}>[
+		<BOUCLE_lettre(MP_MESSAGES){tout}{id_mp_message IN #GET{selection}}{where?}{statut?}
+			{tri #ENV{par,multi titre},#GET{defaut_tri}}{id_mp_message==#GET{afficher_lettres}|?{'.*','A'}}>[
 		(#TITRE**|extraire_multi|initiale|unique|oui)
 		[(#SET{p,#GET{p}|concat{
-		#SELF|parametre_url{debutmp_l,@#ID_MESSAGE}|ancre_url{paginationmp_l}|afficher_initiale{#TITRE**|extraire_multi|initiale{},#COMPTEUR_BOUCLE,#GET{debut},#ENV{nb,10}}
+		#SELF|parametre_url{debutmp_l,@#ID_MP_MESSAGE}|ancre_url{paginationmp_l}|afficher_initiale{#TITRE**|extraire_multi|initiale{},#COMPTEUR_BOUCLE,#GET{debut},#ENV{nb,10}}
 		}})]
 		]#SAUTER{#ENV{nb,10}|moins{#COMPTEUR_BOUCLE|=={1}|?{2,1}}}</BOUCLE_lettre>[
 		(#SET{p,
@@ -33,20 +33,20 @@ a mis a jour la valeur avec la page reelle]
 
 		<tr class="first_row">
 			<th class="statut" scope="col">[(#TRI{statut,<span title="<:lien_trier_statut|attribut_html:>">#</span>,ajax})]</th> 
-			<th class="titre" scope="col">[(#TRI{multi titre,<:message:champ_titre_label:>,ajax})]</th>
+			<th class="titre" scope="col">[(#TRI{multi titre,<:mp_message:champ_titre_label:>,ajax})]</th>
 			<th class="action" scope="col"></th>
 		</tr>
 	</thead>
 	<tbody>
-	<BOUCLE_liste_mp_messages(MP_MESSAGES){id_message IN #GET{selection}}{statut?}
+	<BOUCLE_liste_mp_messages(MP_MESSAGES){id_mp_message IN #GET{selection}}{statut?}
 		{tri #ENV{par,multi titre},#GET{defaut_tri}}{pagination #ENV{nb,10} mp_l}>
-		<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})][ (#EXPOSE|unique)][ (#TITRE**|extraire_multi|initiale|=={#ENV{i}}|?{on}|unique)][(#ID_MESSAGE|=={#ENV{id_lien_ajoute}}|oui)append]">
-			<td class="statut">[(#STATUT|puce_statut{message})]</td> 
-			<td class="titre">[(#LOGO_MESSAGE|image_reduire{20,20})]<a href="[(#ID_MESSAGE|generer_url_entite{message})]">#TITRE</a></td>
+		<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})][ (#EXPOSE|unique)][ (#TITRE**|extraire_multi|initiale|=={#ENV{i}}|?{on}|unique)][(#ID_MP_MESSAGE|=={#ENV{id_lien_ajoute}}|oui)append]">
+			<td class="statut">[(#STATUT|puce_statut{mp_message})]</td> 
+			<td class="titre">[(#LOGO_MP_MESSAGE|image_reduire{20,20})]<a href="[(#ID_MP_MESSAGE|generer_url_entite{mp_message})]">#TITRE</a></td>
 
 			<td class="action">
 				[(#ENV{editable}|oui)
-					<button type="submit" class="button link delete" name="supprimer_lien\[message-#ID_MESSAGE-#OBJET-#ID_OBJET\]" value="X"><:message:retirer_lien_message:> [(#CHEMIN_IMAGE{supprimer-12.png}|balise_img{'X'})]</button>
+					<button type="submit" class="button link delete" name="supprimer_lien\[mp_message-#ID_MP_MESSAGE-#OBJET-#ID_OBJET\]" value="X"><:mp_message:retirer_lien_mp_message:> [(#CHEMIN_IMAGE{supprimer-12.png}|balise_img{'X'})]</button>
 				]
 			</td>
 		</tr>
@@ -54,10 +54,10 @@ a mis a jour la valeur avec la page reelle]
 	</tbody>
 </table>
 [<p class="pagination">(#PAGINATION{prive})</p>]
-[(#GRAND_TOTAL|>{3}|oui)<div class="action"><button type="submit" class="button link" name="supprimer_lien\[message-*-#OBJET-#ID_OBJET\]" value="X"><:message:retirer_tous_liens_mp_messages:> [(#CHEMIN_IMAGE{supprimer-8.png}|balise_img{'X'})]</button></div>]
+[(#GRAND_TOTAL|>{3}|oui)<div class="action"><button type="submit" class="button link" name="supprimer_lien\[mp_message-*-#OBJET-#ID_OBJET\]" value="X"><:mp_message:retirer_tous_liens_mp_messages:> [(#CHEMIN_IMAGE{supprimer-8.png}|balise_img{'X'})]</button></div>]
 </div>
 </B_liste_mp_messages>
 <div class="liste-objets liste-objets-lies mp_messages caption-wrap">
-	<strong class="caption">[(#ENV*{titre,<:message:info_aucun_message:>})]</strong>
+	<strong class="caption">[(#ENV*{titre,<:mp_message:info_aucun_mp_message:>})]</strong>
 </div>
 <//B_liste_mp_messages>

@@ -43,11 +43,11 @@ function message_personnalise_declarer_tables_interfaces($interfaces) {
 function message_personnalise_declarer_tables_objets_sql($tables) {
 
 	$tables['spip_mp_messages'] = array(
-		'type' => 'message',
+		'type' => 'mp_message',
 		'principale' => 'oui',
-		'table_objet_surnoms' => array('mpmessage'), // table_objet('message') => 'mp_messages' 
+		'table_objet_surnoms' => array('mpmessage'), // table_objet('mp_message') => 'mp_messages' 
 		'field'=> array(
-			'id_message'         => 'bigint(21) NOT NULL',
+			'id_mp_message'      => 'bigint(21) NOT NULL',
 			'titre'              => 'varchar(50) NOT NULL DEFAULT ""',
 			'sujet'              => 'varchar(255) NOT NULL DEFAULT ""',
 			'declencheur_statut' => 'varchar(50) NOT NULL DEFAULT ""',
@@ -62,7 +62,7 @@ function message_personnalise_declarer_tables_objets_sql($tables) {
 			'maj'                => 'TIMESTAMP'
 		),
 		'key' => array(
-			'PRIMARY KEY'        => 'id_message',
+			'PRIMARY KEY'        => 'id_mp_message',
 			'KEY lang'           => 'lang',
 			'KEY id_trad'        => 'id_trad',
 			'KEY statut'         => 'statut',
@@ -89,7 +89,7 @@ function message_personnalise_declarer_tables_objets_sql($tables) {
 				'exception' => array('statut','tout')
 			)
 		),
-		'texte_changer_statut' => 'message:texte_changer_statut_message',
+		'texte_changer_statut' => 'mp_message:texte_changer_statut_mp_message',
 
 
 	);
@@ -111,14 +111,14 @@ function message_personnalise_declarer_tables_auxiliaires($tables) {
 
 	$tables['spip_mp_messages_liens'] = array(
 		'field' => array(
-			'id_message'         => 'bigint(21) DEFAULT "0" NOT NULL',
+			'id_mp_message'      => 'bigint(21) DEFAULT "0" NOT NULL',
 			'id_objet'           => 'bigint(21) DEFAULT "0" NOT NULL',
 			'objet'              => 'VARCHAR(25) DEFAULT "" NOT NULL',
 			'vu'                 => 'VARCHAR(6) DEFAULT "non" NOT NULL',
 		),
 		'key' => array(
-			'PRIMARY KEY'        => 'id_message,id_objet,objet',
-			'KEY id_message'     => 'id_message',
+			'PRIMARY KEY'        => 'id_mp_message,id_objet,objet',
+			'KEY id_mp_message'  => 'id_mp_message',
 		)
 	);
 

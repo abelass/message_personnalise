@@ -80,13 +80,13 @@ function message_personnalise_vider_tables($nom_meta_base_version) {
 	sql_drop_table('spip_mp_messages_liens');
 
 	# Nettoyer les liens courants (le génie optimiser_base_disparus se chargera de nettoyer toutes les tables de liens)
-	sql_delete('spip_documents_liens', sql_in('objet', array('message')));
-	sql_delete('spip_mots_liens', sql_in('objet', array('message')));
-	sql_delete('spip_auteurs_liens', sql_in('objet', array('message')));
+	sql_delete('spip_documents_liens', sql_in('objet', array('mp_message')));
+	sql_delete('spip_mots_liens', sql_in('objet', array('mp_message')));
+	sql_delete('spip_auteurs_liens', sql_in('objet', array('mp_message')));
 	# Nettoyer les versionnages et forums
-	sql_delete('spip_versions', sql_in('objet', array('message')));
-	sql_delete('spip_versions_fragments', sql_in('objet', array('message')));
-	sql_delete('spip_forum', sql_in('objet', array('message')));
+	sql_delete('spip_versions', sql_in('objet', array('mp_message')));
+	sql_delete('spip_versions_fragments', sql_in('objet', array('mp_message')));
+	sql_delete('spip_forum', sql_in('objet', array('mp_message')));
 
 	effacer_meta($nom_meta_base_version);
 }

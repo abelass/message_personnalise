@@ -1,0 +1,30 @@
+<BOUCLE_mp_message(MP_MESSAGES){id_mp_message=#ENV{id}}{statut?}>
+<div class="infos">
+[(#SET{texte_objet,<:mp_message:titre_mp_message:>})]
+<div class="numero"><:titre_cadre_numero_objet{objet=#GET{texte_objet}}:><p>#ID_MP_MESSAGE</p></div>
+
+[(#FORMULAIRE_INSTITUER_OBJET{mp_messages,#ID_MP_MESSAGE})]
+
+<div class='nb_elements'><!--nb_elements--></div>
+
+[(#REM)
+
+	Bouton voir en ligne
+
+]
+<BOUCLE_publie(MP_MESSAGES){id_mp_message}>
+	[(#VAL{redirect}
+		|generer_url_action{type=mp_messages&id=#ID_MP_MESSAGE}
+		|parametre_url{var_mode,calcul}
+		|icone_horizontale{<:icone_voir_en_ligne:>,racine})]
+</BOUCLE_publie>
+	[(#AUTORISER{previsualiser,mp_messages,#ID_MP_MESSAGE,'',#ARRAY{statut,#STATUT}})
+		[(#VAL{redirect}
+			|generer_url_action{type=mp_messages&id=#ID_MP_MESSAGE}
+			|parametre_url{var_mode,preview}
+			|icone_horizontale{<:previsualiser:>,preview})]
+	]
+<//B_publie>
+
+</div>
+</BOUCLE_mp_message>

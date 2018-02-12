@@ -2,19 +2,19 @@
 	[(#SET{valeur,[(#ENV*{valeur}|is_array|?{[(#ENV*{valeur})],[(#ENV*{valeur}|explode{','})]})]})]
 	<B_mp_messages_selectionnes>
 	<ul>
-	<BOUCLE_mp_messages_selectionnes(MP_MESSAGES){id_message IN #GET*{valeur}}
+	<BOUCLE_mp_messages_selectionnes(MP_MESSAGES){id_mp_message IN #GET*{valeur}}
 		{par num titre, titre}{statut?}{tout}>
-		<li class="choix">#TITRE (#ID_MESSAGE)</li>
+		<li class="choix">#TITRE (#ID_MP_MESSAGE)</li>
 	</BOUCLE_mp_messages_selectionnes>
 	</ul>
 	</B_mp_messages_selectionnes>
    	[(#ENV*{sans_reponse}|propre)]
 	<//B_mp_messages_selectionnes>
 </BOUCLE_test_multiple>
-	<BOUCLE_message_selectionne(MP_MESSAGES){id_message=#ENV{valeur}}
+	<BOUCLE_mp_message_selectionne(MP_MESSAGES){id_mp_message=#ENV{valeur}}
 		{par num titre, titre}{statut?}{tout}>
-	  	<p>#TITRE (#ID_MESSAGE)</p>
-	</BOUCLE_message_selectionne>
+	  	<p>#TITRE (#ID_MP_MESSAGE)</p>
+	</BOUCLE_mp_message_selectionne>
    	[(#ENV*{sans_reponse}|propre)]
-	<//B_message_selectionne>
+	<//B_mp_message_selectionne>
 <//B_test_multiple>

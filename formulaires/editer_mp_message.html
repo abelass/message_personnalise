@@ -1,0 +1,38 @@
+<div class='formulaire_spip formulaire_editer formulaire_#FORM formulaire_#FORM-#ENV{id_mp_message,nouveau}'>
+	[<p class="reponse_formulaire reponse_formulaire_ok">(#ENV**{message_ok})</p>]
+	[<p class="reponse_formulaire reponse_formulaire_erreur">(#ENV*{message_erreur})</p>]
+
+	[(#ENV{editable})
+	<form method="post" action="#ENV{action}"><div>
+		#ACTION_FORMULAIRE{#ENV{action}}
+		<input type="hidden" name="id_mp_message" value="#ENV{id_mp_message}" />
+		<div class="editer-groupe">
+
+			[(#SAISIE{input, titre, obligatoire=oui,
+				label=<:mp_message:champ_titre_label:>})]
+
+			[(#SAISIE{input, sujet,
+				label=<:mp_message:champ_sujet_label:>})]
+
+			[(#SAISIE{selection, declencheur_statut,
+				label=<:mp_message:champ_declencheur_statut_label:>})]
+
+			[(#SAISIE{selection, declencheur_qui,
+				label=<:mp_message:champ_declencheur_qui_label:>})]
+
+			[(#SAISIE{textarea, descriptif,
+				label=<:mp_message:champ_descriptif_label:>,
+				explication=<:mp_message:champ_descriptif_explication:> })]
+
+			[(#SAISIE{textarea, texte, obligatoire=oui,
+				label=<:mp_message:champ_texte_label:>,
+				explication=<:mp_message:champ_texte_explication:> ,
+				conteneur_class=pleine_largeur, class=inserer_barre_edition, rows=4})]
+
+		</div>
+		[(#REM) ajouter les saisies supplementaires : extra et autre, a cet endroit ]
+		<!--extra-->
+		<p class="boutons"><input type="submit" class="submit" value="<:bouton_enregistrer:>" /></p>
+	</div></form>
+	]
+</div>

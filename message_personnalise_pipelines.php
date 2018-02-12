@@ -72,7 +72,7 @@ function message_personnalise_affiche_milieu($flux) {
 function message_personnalise_optimiser_base_disparus($flux) {
 
 	include_spip('action/editer_liens');
-	$flux['data'] += objet_optimiser_liens(array('message'=>'*'), '*');
+	$flux['data'] += objet_optimiser_liens(array('mp_message'=>'*'), '*');
 
 	sql_delete('spip_mp_messages', "statut='poubelle' AND maj < " . $flux['args']['date']);
 

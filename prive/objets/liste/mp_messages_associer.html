@@ -1,7 +1,7 @@
 [(#SET{defaut_tri,#ARRAY{
 	multi titre,1,
 	date,-1,
-	id_message,1
+	id_mp_message,1
 }})
 ]
 #SET{exclus,#ENV**{exclus,#ENV{objet_source}|lister_objets_lies{#ENV{objet},#ENV{id_objet},#ENV{_objet_lien}}}}
@@ -14,7 +14,7 @@ a mis a jour la valeur avec la page reelle]
 #ANCRE_PAGINATION
 <div class="liste-objets liste-objets-associer mp_messages">
 <table class="spip liste">
-[<caption><span class="caption"><strong>(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{message:info_1_message,message:info_nb_mp_messages}})</strong>
+[<caption><span class="caption"><strong>(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{mp_message:info_1_mp_message,mp_message:info_nb_mp_messages}})</strong>
 <span class="recherche">
 	<label for="recherche-#ENV{id}"><:info_rechercher_02:></label>
 	<input type="text" class="recherche" name="recherche" id="recherche-#ENV{id}" value="#ENV{recherche}" />
@@ -24,11 +24,11 @@ a mis a jour la valeur avec la page reelle]
 </caption>]
 	<thead>
 		#SET{p,''}
-		<BOUCLE_lettre(MP_MESSAGES){tout}{!id_message IN #GET{exclus}}{where?}{recherche?}{statut?}
-			{tri #ENV{par,multi titre},#GET{defaut_tri}}{id_message==#GET{afficher_lettres}|?{'.*','A'}}>[
+		<BOUCLE_lettre(MP_MESSAGES){tout}{!id_mp_message IN #GET{exclus}}{where?}{recherche?}{statut?}
+			{tri #ENV{par,multi titre},#GET{defaut_tri}}{id_mp_message==#GET{afficher_lettres}|?{'.*','A'}}>[
 		(#TITRE**|extraire_multi|initiale|unique|oui)
 		[(#SET{p,#GET{p}|concat{
-		#SELF|parametre_url{debutmp_a,@#ID_MESSAGE}|ancre_url{paginationmp_a}|afficher_initiale{#TITRE**|extraire_multi|initiale{},#COMPTEUR_BOUCLE,#GET{debut},#ENV{nb,10}}
+		#SELF|parametre_url{debutmp_a,@#ID_MP_MESSAGE}|ancre_url{paginationmp_a}|afficher_initiale{#TITRE**|extraire_multi|initiale{},#COMPTEUR_BOUCLE,#GET{debut},#ENV{nb,10}}
 		}})]
 		]#SAUTER{#ENV{nb,10}|moins{#COMPTEUR_BOUCLE|=={1}|?{2,1}}}</BOUCLE_lettre>[
 		(#SET{p,
@@ -40,18 +40,18 @@ a mis a jour la valeur avec la page reelle]
 	
 		<tr class="first_row">
 			<th class="statut" scope="col">[(#TRI{statut,<span title="<:lien_trier_statut|attribut_html:>">#</span>,ajax})]</th> 
-			<th class="titre" scope="col">[(#TRI{multi titre,<:message:champ_titre_label:>,ajax})]</th>
+			<th class="titre" scope="col">[(#TRI{multi titre,<:mp_message:champ_titre_label:>,ajax})]</th>
 			<th class="action" scope="col"></th>
 		</tr>
 	</thead>
 	<tbody>
-	<BOUCLE_liste_mp_messages(MP_MESSAGES){!id_message IN #GET{exclus}}{where?}{recherche?}{statut?}
+	<BOUCLE_liste_mp_messages(MP_MESSAGES){!id_mp_message IN #GET{exclus}}{where?}{recherche?}{statut?}
 		{tri #ENV{par,multi titre},#GET{defaut_tri}}{pagination #ENV{nb,10} mp_a}>
 		<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})][ (#EXPOSE|unique)][ (#TITRE**|extraire_multi|initiale|=={#ENV{i}}|?{on}|unique)]">
-			<td class="statut">[(#STATUT|puce_statut{message})]</td> 
-			<td class="titre">[(#LOGO_MESSAGE|image_reduire{20,20})]<a href="[(#ID_MESSAGE|generer_url_entite{message})]">#TITRE</a></td>
+			<td class="statut">[(#STATUT|puce_statut{mp_message})]</td> 
+			<td class="titre">[(#LOGO_MP_MESSAGE|image_reduire{20,20})]<a href="[(#ID_MP_MESSAGE|generer_url_entite{mp_message})]">#TITRE</a></td>
 			<td class="action">
-				<button type="submit" class="button link add" name="ajouter_lien\[message-#ID_MESSAGE-#OBJET-#ID_OBJET\]" value="+"><:message:ajouter_lien_message:> [(#CHEMIN_IMAGE{ajouter-12.png}|balise_img{'+'})]</button>
+				<button type="submit" class="button link add" name="ajouter_lien\[mp_message-#ID_MP_MESSAGE-#OBJET-#ID_OBJET\]" value="+"><:mp_message:ajouter_lien_mp_message:> [(#CHEMIN_IMAGE{ajouter-12.png}|balise_img{'+'})]</button>
 			</td>
 		</tr>
 	</BOUCLE_liste_mp_messages>

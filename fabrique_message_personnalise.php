@@ -2,7 +2,7 @@
 
 /**
  *  Fichier généré par la Fabrique de plugin v6
- *   le 2018-02-12 14:28:19
+ *   le 2018-02-12 14:39:59
  *
  *  Ce fichier de sauvegarde peut servir à recréer
  *  votre plugin avec le plugin «Fabrique» qui a servi à le créer.
@@ -95,9 +95,9 @@ $data = array (
       ),
       'logo_variantes' => '',
       'table' => 'spip_mp_messages',
-      'cle_primaire' => 'id_message',
+      'cle_primaire' => 'id_mp_message',
       'cle_primaire_sql' => 'bigint(21) NOT NULL',
-      'table_type' => 'message',
+      'table_type' => 'mp_message',
       'champs' => 
       array (
         0 => 

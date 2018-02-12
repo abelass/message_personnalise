@@ -1,0 +1,68 @@
+[(#AUTORISER{voir,mp_message,#ID_MP_MESSAGE}|sinon_interdire_acces)]
+[(#SET{url_voir,#VAL{mp_message}|objet_info{url_voir}})]
+[(#SET{url_edit,#VAL{mp_message}|objet_info{url_edit}})]
+<BOUCLE_mp_message(MP_MESSAGES){id_mp_message}{statut==.*}{si #ENV{exec}|=={#GET{url_voir}}}>
+[(#BOITE_OUVRIR{[
+	[(#AUTORISER{modifier,mp_message,#ID_MP_MESSAGE})
+		[(#ID_MP_MESSAGE|afficher_qui_edite{mp_message}|non)
+			[(#URL_ECRIRE{#GET{url_edit},id_mp_message=#ID_MP_MESSAGE}|icone_verticale{<:mp_message:icone_modifier_mp_message:>,mp_message,edit,right ajax preload})]
+		]
+		[(#ID_MP_MESSAGE|afficher_qui_edite{mp_message}|oui)
+			[(#URL_ECRIRE{#GET{url_edit},id_mp_message=#ID_MP_MESSAGE}|icone_verticale{#ID_MP_MESSAGE|afficher_qui_edite{mp_message},warning-24,'',right edition_deja ajax preload})]
+		]
+	]
+
+	<h1>[(#RANG). ](#TITRE|sinon{<:info_sans_titre:>})[(#CHEMIN_IMAGE{mp_message-24.png}|balise_img{mp_message,cadre-icone})]</h1>
+
+],simple fiche_objet})]
+
+<div class="ajax">
+	#FORMULAIRE_DATER{mp_message,#ID_MP_MESSAGE}
+</div>
+
+<!--affiche_milieu-->
+
+<div id="wysiwyg">
+<INCLURE{fond=prive/objets/contenu/mp_message,id=#ID_MP_MESSAGE,id_mp_message=#ID_MP_MESSAGE,virtuel=oui,ajax=wysiwyg,wysiwyg=1}>
+</div>
+
+<div class="nettoyeur"></div>
+
+[(#AUTORISER{modifier,mp_message,#ID_MP_MESSAGE})
+	[(#ID_MP_MESSAGE|afficher_qui_edite{mp_message}|non)
+		[(#URL_ECRIRE{#GET{url_edit},id_mp_message=#ID_MP_MESSAGE}|icone_verticale{<:mp_message:icone_modifier_mp_message:>,mp_message,edit,right ajax preload})]
+	]
+	[(#ID_MP_MESSAGE|afficher_qui_edite{mp_message}|oui)
+		[(#URL_ECRIRE{#GET{url_edit},id_mp_message=#ID_MP_MESSAGE}|icone_verticale{#ID_MP_MESSAGE|afficher_qui_edite{mp_message},warning-24,'',right edition_deja ajax preload})]
+	]
+]
+
+<div class="nettoyeur"></div>
+<div class="liste">
+	<BOUCLE_objetslies(spip_mp_messages_liens){id_mp_message}{0,1}><h3><:mp_message:titre_objets_lies_mp_message:></h3></BOUCLE_objetslies>
+
+	<BOUCLE_listeobjets(spip_mp_messages_liens){id_mp_message}{fusion objet}{par objet}>
+		#SET{table,#OBJET|table_objet}
+		[(#SET{titre,[#OBJET:info_(#GET{table})_liees_mp_message]})]
+		[(#SET{liste,#VAL{prive/objets/liste/#GET{table}}|trouver_fond|?{#GET{table},objets_lies_mp_message}})]
+		<INCLURE{fond=prive/objets/liste/#GET{liste},objet,id_mp_message,ajax,env} />
+	</BOUCLE_listeobjets>
+</div>
+
+#PIPELINE{afficher_complement_objet,#ARRAY{args,#ARRAY{type,mp_message,id,#ID_MP_MESSAGE},data,'<div class="nettoyeur"></div>'}}
+
+#BOITE_FERMER
+
+
+#SET{enfants,''}
+[(#VAL{prive/objets/contenu/mp_message-enfants}|trouver_fond|oui)
+	[(#SET{enfants,[(#INCLURE{fond=prive/objets/contenu/mp_message-enfants,id_mp_message,env})]})]
+]
+[(#PIPELINE{affiche_enfants,[(#ARRAY{args,#ARRAY{exec,mp_message,id_mp_message,#ID_MP_MESSAGE,objet,mp_message,id_objet,#ID_MP_MESSAGE},data,#GET{enfants}})]})]
+
+[(#EVAL{_AJAX}|oui)
+	<script type="text/javascript">/*<!\\[CDATA\\[*/reloadExecPage('#ENV{exec}','#navigation,#chemin,#extra');/*\\]\\]>*/</script>
+]
+</BOUCLE_mp_message>
+[(#ENV**{exec}|=={#GET{url_edit}}|?{#INCLURE{fond=prive/squelettes/contenu/#GET{url_edit},redirect='',env,retourajax=oui},#REM|sinon_interdire_acces})]
+<//B_mp_message>
