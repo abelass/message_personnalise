@@ -1,0 +1,36 @@
+[(#SET{defaut_tri,#ARRAY{
+	titre,1,
+	id_message,1,
+	points,-1
+}})]<B_liste_messages>
+#ANCRE_PAGINATION
+<div class="liste-objets messages">
+<table class="spip liste">
+	[<caption><strong class="caption">(#ENV*{titre,#GRAND_TOTAL|singulier_ou_pluriel{message:info_1_message,message:info_nb_messages}})</strong></caption>]
+	<thead>
+		<tr class="first_row">
+			<th class="picto" scope="col"></th>
+			<th class="statut" scope="col">[(#TRI{statut,<span title="<:lien_trier_statut|attribut_html:>">#</span>,ajax})]</th> 
+			<th class="titre" scope="col">[(#TRI{titre,<:message:champ_titre_label:>,ajax})]</th>
+			<th class="id" scope="col">[(#TRI{id_message,<:info_numero_abbreviation:>,ajax})]</th>
+		</tr>
+	</thead>
+	<tbody>
+	<BOUCLE_liste_messages(MESSAGES){id_mot?}{id_auteur?}{where?}{statut?}{recherche?}{tri #ENV{par,num titre},#GET{defaut_tri}}{par titre}{pagination #ENV{nb,10}}>
+		<tr class="[(#COMPTEUR_BOUCLE|alterner{row_odd,row_even})]">
+			<td class="picto">[(#CHEMIN_IMAGE{message-16.png}|balise_img)]</td>
+			<td class="statut">[(#STATUT|puce_statut{message,#ID_MESSAGE})]</td> 
+			<td class="titre principale">[(#LOGO_MESSAGE|image_reduire{20,26})]<a href="[(#ID_MESSAGE|generer_url_entite{message})]" title="<:info_numero_abbreviation|attribut_html:> #ID_MESSAGE">[(#RANG). ]#TITRE</a></td>
+			<td class="id">[(#AUTORISER{modifier,message,#ID_MESSAGE}|?{
+				<a href="[(#URL_ECRIRE{message_edit,id_message=#ID_MESSAGE})]">#ID_MESSAGE</a>,
+				#ID_MESSAGE
+			})]</td>
+		</tr>
+	</BOUCLE_liste_messages>
+	</tbody>
+</table>
+[<p class="pagination">(#PAGINATION{prive})</p>]
+</div>
+</B_liste_messages>[
+<div class="liste-objets messages caption-wrap"><strong class="caption">(#ENV*{sinon,''})</strong></div>
+]<//B_liste_messages>

@@ -1,0 +1,32 @@
+<BOUCLE_message(MESSAGES){id_message}{statut?}>
+[<div class="champ contenu_titre[ (#TITRE*|strlen|?{'',vide})]">
+	<label><:message:champ_titre_label:> : </label>
+	<span dir="#LANG_DIR" class="#EDIT{titre} titre">(#TITRE)</span>
+</div>]
+
+[<div class="champ contenu_sujet[ (#SUJET*|strlen|?{'',vide})]">
+	<label><:message:champ_sujet_label:> : </label>
+	<span dir="#LANG_DIR" class="#EDIT{sujet} sujet">(#SUJET)</span>
+</div>]
+
+[<div class="champ contenu_declencheur_statut[ (#DECLENCHEUR_STATUT*|strlen|?{'',vide})]">
+	<label><:message:champ_declencheur_statut_label:> : </label>
+	<span dir="#LANG_DIR" class="#EDIT{declencheur_statut} declencheur_statut">(#DECLENCHEUR_STATUT)</span>
+</div>]
+
+[<div class="champ contenu_declencheur_qui[ (#DECLENCHEUR_QUI*|strlen|?{'',vide})]">
+	<label><:message:champ_declencheur_qui_label:> : </label>
+	<span dir="#LANG_DIR" class="#EDIT{declencheur_qui} declencheur_qui">(#DECLENCHEUR_QUI)</span>
+</div>]
+
+[<div class="champ contenu_descriptif[ (#DESCRIPTIF*|strlen|?{'',vide})]">
+	<label><:message:champ_descriptif_label:> : </label>
+	<span dir="#LANG_DIR" class="#EDIT{descriptif} descriptif">(#DESCRIPTIF)</span>
+</div>]
+
+[<div class="champ contenu_texte[ (#TEXTE*|strlen|?{'',vide})]">
+	<label><:message:champ_texte_label:> : </label>
+	<span dir="#LANG_DIR" class="#EDIT{texte} texte">(#TEXTE)</span>
+</div>]
+
+</BOUCLE_message>
