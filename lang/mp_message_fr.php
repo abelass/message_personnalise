@@ -20,6 +20,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'champ_texte_explication' => 'Message personnalisé',
 	'champ_texte_label' => 'Texte',
 	'champ_titre_label' => 'Titre',
+	'champ_type_label' => 'Type',
 	'confirmer_supprimer_mp_message' => 'Confirmez-vous la suppression de cet message ?',
 
 	// I

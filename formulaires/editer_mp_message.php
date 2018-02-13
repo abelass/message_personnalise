@@ -100,7 +100,7 @@ function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $ret
 function formulaires_editer_mp_message_verifier_dist($id_mp_message = 'new', $retour = '', $associer_objet = '', $lier_trad = 0, $config_fonc = '', $row = array(), $hidden = '') {
 	$erreurs = array();
 
-	$erreurs = formulaires_editer_objet_verifier('mp_message', $id_mp_message, array('titre', 'texte'));
+	$erreurs = formulaires_editer_objet_verifier('mp_message', $id_mp_message, array('titre', 'type', 'texte'));
 
 	return $erreurs;
 }
