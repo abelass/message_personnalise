@@ -6,17 +6,17 @@
 	compatibilite="[3.0.0;3.2.*]"
 	logo="prive/themes/spip/images/message_personnalise-64.png"
 	documentation=""
-	schema="1.0.0" 
+	schema="1.0.0"
 >
 	<!--
 		Paquet généré le 2018-02-12 14:39:59
-		(Vous pouvez bien entendu supprimer ces commentaires) 
+		(Vous pouvez bien entendu supprimer ces commentaires)
 	-->
 
 	<nom>Message personnalisé</nom>
 	<!-- Permet de personnaliser certain message  système -->
 
-	<!-- cette balise peut être présente plusieurs fois s'il y a plusieurs auteurs --> 
+	<!-- cette balise peut être présente plusieurs fois s'il y a plusieurs auteurs -->
 	<auteur>Rainer Müller</auteur>
 
 	<licence>GNU/GPL</licence>
@@ -24,32 +24,32 @@
 	<!--
 		Exemple de commandes
 		* dependances
-		<necessite nom="saisies" compatibilite="[2.4.0;]" />
-		<utilise nom="saisies" compatibilite="[2.4.0;]" />
+		<necessite nom="saisies" compatibilite="[2.22.0;]" />
+		<utilise nom="saisies" compatibilite="[2.22.0;]" />
 		<lib nom="simplehtmldom" lien="http://chemin_vers_archive.zip" />
 		* pipelines
 		<pipeline nom="autoriser" inclure="message_personnalise_autorisations.php" />
 		<pipeline nom="insert_head" inclure="message_personnalise_pipelines.php" />
-		* declarer un pipeline 
+		* declarer un pipeline
 		<pipeline nom="mon_pipeline" action="" />
 		* parents de menus de SPIP :
 				menu_accueil (à éviter), menu_edition, menu_publication,
-				menu_activite, menu_squelette, menu_administration, menu_configuration 
+				menu_activite, menu_squelette, menu_administration, menu_configuration
 		<menu nom="message_personnalise" titre="message_personnalise:message_personnalise_titre" parent="menu_edition"  icone="images/message_personnalise-16.png" />
-		* parents d'onglets... configuration, plugins, statistiques, ... 
+		* parents d'onglets... configuration, plugins, statistiques, ...
 		<onglet nom="message_personnalise" titre="message_personnalise:message_personnalise_titre" parent="configuration" icone="images/message_personnalise-24.png" />
 	-->
 
-	<necessite nom="saisies" compatibilite="[2.4.0;]" /> 
+	<necessite nom="saisies" compatibilite="[2.4.0;]" />
 
 
-	<pipeline nom="autoriser" inclure="message_personnalise_autorisations.php" /> 
+	<pipeline nom="autoriser" inclure="message_personnalise_autorisations.php" />
 
-	<pipeline nom="declarer_tables_objets_sql" inclure="base/message_personnalise.php" /> 
-	<pipeline nom="declarer_tables_interfaces" inclure="base/message_personnalise.php" /> 
-	<pipeline nom="declarer_tables_auxiliaires" inclure="base/message_personnalise.php" /> 
-	<pipeline nom="affiche_milieu" inclure="message_personnalise_pipelines.php" /> 
-	<pipeline nom="optimiser_base_disparus" inclure="message_personnalise_pipelines.php" /> 
+	<pipeline nom="declarer_tables_objets_sql" inclure="base/message_personnalise.php" />
+	<pipeline nom="declarer_tables_interfaces" inclure="base/message_personnalise.php" />
+	<pipeline nom="declarer_tables_auxiliaires" inclure="base/message_personnalise.php" />
+	<pipeline nom="affiche_milieu" inclure="message_personnalise_pipelines.php" />
+	<pipeline nom="optimiser_base_disparus" inclure="message_personnalise_pipelines.php" />
 
-	<menu nom="mp_messages" titre="mp_message:titre_mp_messages" parent="menu_edition" icone="images/mp_message-16.png" action="mp_messages" /> 
+	<menu nom="mp_messages" titre="mp_message:titre_mp_messages" parent="menu_edition" icone="images/mp_message-16.png" action="mp_messages" />
 </paquet>

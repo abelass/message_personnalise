@@ -1,0 +1,33 @@
+[(#ENV{type}|oui)
+	#SET{definitions, #ENV{_definitions}|table_valeur{#ENV{type}}}
+]
+
+[(#SAISIE{selection, type, obligatoire=oui,
+	label=<:mp_message:champ_type_label:>,
+	data=#ENV{_types}})]
+
+[(#GET{definitions}|table_valeur{statuts}|oui)
+	[(#SAISIE{selection, declencheur_statut,
+		label=<:mp_message:champ_declencheur_statut_label:>,
+		data=#GET{definitions}|table_valeur{statuts}})]
+]
+[(#GET{definitions}|table_valeur{qui}|oui)
+	[(#SAISIE{selection, declencheur_qui,
+		label=<:mp_message:champ_declencheur_qui_label:>,
+		data=#GET{definitions}|table_valeur{qui}})]
+]
+
+<script type="text/javascript">
+	$(function() {
+		$("#champ_type").change(function(event) {
+			$("option:selected", $(this)).each(function() {
+				var type = $(this).attr('value');
+				ajaxReload('champs_spècifiques', {
+					args : {
+						type : type,
+					}
+				});
+			});
+		});
+	});
+</script>
