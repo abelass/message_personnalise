@@ -69,25 +69,22 @@ function formulaires_editer_mp_message_identifier_dist($id_mp_message = 'new', $
  */
 function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $retour = '', $associer_objet = '', $lier_trad = 0, $config_fonc = '', $row = array(), $hidden = '') {
 	$valeurs = formulaires_editer_objet_charger('mp_message', $id_mp_message, '', $lier_trad, $retour, $config_fonc, $row, $hidden);
-
 	$messages_personalisables = find_all_in_path("messages_personnalises/", '^');
 
-
-	//$configurations = array();
 	if (is_array($messages_personalisables)) {
-
 		foreach (array_keys($messages_personalisables) as $fichier) {
 			$explode = explode('.', $fichier);
 			$nom = $explode[0];
-			// Charger la définition des champs
+
+			// Charger les définitions spécifiques.
 			if ($message = charger_fonction($nom, "messages_personnalises", true)) {
 				$message = $message($valeurs);
 				$valeurs['_types'][$nom] = $message['nom'];
-				if (isset($message['statuts'])) {
-					$valeurs['_definitions'][$nom]['statuts'] = $message['statuts'];
-				}
-				if (isset($message['qui'])) {
-					$valeurs['_definitions'][$nom]['qui'] = $message['qui'];
+
+				if (isset($message['declencheurs'])) {
+					foreach ($message['declencheurs'] as $type => $data) {
+						$valeurs['_definitions'][$nom]['declencheur_' . $type] = $data;
+					}
 				}
 			}
 		}

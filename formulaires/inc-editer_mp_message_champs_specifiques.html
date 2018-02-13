@@ -1,3 +1,5 @@
+#SET{definitions,#ARRAY}
+
 [(#ENV{type}|oui)
 	#SET{definitions, #ENV{_definitions}|table_valeur{#ENV{type}}}
 ]
@@ -6,23 +8,18 @@
 	label=<:mp_message:champ_type_label:>,
 	data=#ENV{_types}})]
 
-[(#GET{definitions}|table_valeur{statuts}|oui)
-	[(#SAISIE{selection, declencheur_statut,
-		label=<:mp_message:champ_declencheur_statut_label:>,
-		data=#GET{definitions}|table_valeur{statuts}})]
-]
-[(#GET{definitions}|table_valeur{qui}|oui)
-	[(#SAISIE{selection, declencheur_qui,
-		label=<:mp_message:champ_declencheur_qui_label:>,
-		data=#GET{definitions}|table_valeur{qui}})]
-]
+<BOUCLE_declencheurs(DATA){source tableau, #GET{definitions}}>
+	[(#SAISIE{selection, #CLE,
+		label=[(#VAL{mp_message:champ_[(#CLE)]_label}|_T)],
+		data=#VALEUR})]
+</BOUCLE_declencheurs>
 
 <script type="text/javascript">
 	$(function() {
 		$("#champ_type").change(function(event) {
 			$("option:selected", $(this)).each(function() {
 				var type = $(this).attr('value');
-				ajaxReload('champs_spècifiques', {
+				ajaxReload('champs_specifiques', {
 					args : {
 						type : type,
 					}
