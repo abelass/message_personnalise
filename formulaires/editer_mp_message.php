@@ -74,18 +74,37 @@ function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $ret
 	if (is_array($messages_personalisables)) {
 		foreach (array_keys($messages_personalisables) as $fichier) {
 			$explode = explode('.', $fichier);
-			$nom = $explode[0];
+			$type = $explode[0];
 
 			// Charger les définitions spécifiques.
-			if ($message = charger_fonction($nom, "messages_personnalises", true)) {
+			if ($message = charger_fonction($type, "messages_personnalises", true)) {
 				$message = $message($valeurs);
-				$valeurs['_types'][$nom] = $message['nom'];
-
-				if (isset($message['declencheurs'])) {
-					foreach ($message['declencheurs'] as $type => $data) {
-						$valeurs['_definitions'][$nom]['declencheur_' . $type] = $data;
+				$valeurs['_types'][$type] = $message['nom'];
+				foreach ($message as $champ => $valeur) {
+					if ($champ != 'declencheurs') {
+						$valeurs[$champ] = $valeur;
 					}
-				}
+					elseif (is_array($valeur)) {
+						foreach ($valeur as $declencheur => $data) {
+							$valeurs['_definitions'][$type]['declencheur_' . $declencheur] = $data;
+						}
+					}
+			}
+
+			// Charger les définitions spécifiques.
+			/*if ($message = charger_fonction($nom, "messages_personnalises", true)) {
+				$message = $message($valeurs);
+				foreach ($message as $champ => $valeur) {
+					if ($champ != 'declencheurs') {
+						$valeurs[$champ] = $valeur;
+					}
+					elseif (is_array($valeur)) {
+						foreach ($valeur as $type => $data) {
+							$valeurs['_definitions'][$nom]['declencheur_' . $type] = $data;
+						}
+					}
+				}*/
+				//print_r($message);
 			}
 		}
 	}

@@ -18,9 +18,9 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  * @param string $objet
  *        	Objet du context.
  * @param integer $id_objet
- *          identifiant de l'objet du context.
+ *        	identifiant de l'objet du context.
  * @param string $type
- *          Type de message.
+ *        	Type de message.
  * @param string $message
  *        	Les message original.
  * @param array $objets_cibles
@@ -30,27 +30,30 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  * @return string
  */
 function chercher_message_personnalise($objet, $id_objet, $type, $message, $objets_cibles, $declencheurs) {
-
-	$where = array('m.statut LIKE ' .sql_quote('publie'));
+	$where = array(
+		'm.statut LIKE ' . sql_quote('publie')
+	);
 	$from = 'spip_mp_messages AS m LEFT JOIN spip_mp_messages_liens as ml USING (id_mp_message)';
-	//
+
+	// Les infos de l'objet.
 	if ($objet && $id_objet) {
 		$table = table_objet_sql($objet);
 		$identifiant = id_table_objet($objet);
-
 		$data_objet = sql_fetsel('*', $table, $identifiant . '=' . $id_objet);
 	}
 
+	// Générer la requête.
 	if ($type) {
 		$where[] = 'm.type LIKE' . sql_quote($type);
 	}
 
 	if (is_array($declencheurs)) {
 		foreach ($declencheurs as $declencheur => $valeur) {
-			$where[] = 'declencheur_' .$declencheur . ' LIKE ' . sql_quote($valeur);
+			$where[] = 'declencheur_' . $declencheur . ' LIKE ' . sql_quote($valeur);
 		}
 	}
 
+	// Si plusieurs objets cible on cherche le premier message disponible.
 	if (is_array($objets_cibles)) {
 		foreach ($objets_cibles as $objet_cible => $id_objet_cible) {
 			$where[] = 'ml.objet LIKE ' . sql_quote($objet_cible) . ' AND ml.id_objet =' . $id_objet_cible;
@@ -59,14 +62,17 @@ function chercher_message_personnalise($objet, $id_objet, $type, $message, $obje
 			}
 		}
 	}
-	else{
+	// Sinon on prend un message non lié correspondnant
+	else {
 		$where[] = 'ml.id_mp_message IS NULL';
 		$texte = sql_getfetsel('texte', $from, $where);
 	}
 
+	// On prend le message personnalisé
 	if ($texte) {
 		$message = $texte;
 	}
+	// Sinon le message orifginal.
 	else {
 		$message = _T($message);
 	}
@@ -81,7 +87,6 @@ function chercher_message_personnalise($objet, $id_objet, $type, $message, $obje
  * @return object
  */
 function balise_MESSAGE_PERSONNALISE_dist($p) {
-
 	$type = interprete_argument_balise(1, $p);
 	$message = interprete_argument_balise(2, $p);
 	$objets_cibles = interprete_argument_balise(3, $p);
@@ -101,9 +106,9 @@ function balise_MESSAGE_PERSONNALISE_dist($p) {
  * @param string $objet
  *        	Objet du context.
  * @param integer $id_objet
- *          identifiant de l'objet du context.
+ *        	identifiant de l'objet du context.
  * @param string $type
- *          Type de message.
+ *        	Type de message.
  * @param string $message
  *        	Les message original.
  * @param array $objets_cibles
@@ -111,6 +116,6 @@ function balise_MESSAGE_PERSONNALISE_dist($p) {
  * @param array $declencheurs
  * @return string
  */
-function calculer_balise_MESSAGE_PERSONNALISE($objet, $id_objet, $type, $message, $objets_cibles, $declencheurs){
+function calculer_balise_MESSAGE_PERSONNALISE($objet, $id_objet, $type, $message, $objets_cibles, $declencheurs) {
 	return chercher_message_personnalise($objet, $id_objet, $type, $message, $objets_cibles, $declencheurs);
 }
