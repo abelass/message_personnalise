@@ -10,9 +10,6 @@
 			[(#SAISIE{input, titre, obligatoire=oui,
 				label=<:mp_message:champ_titre_label:>})]
 
-			[(#SAISIE{input, sujet,
-				label=<:mp_message:champ_sujet_label:>})]
-
 			<INCLURE{fond=formulaires/inc-editer_mp_message_champs_specifiques,env,ajax=champs_specifiques} />
 
 			[(#SAISIE{textarea, descriptif,

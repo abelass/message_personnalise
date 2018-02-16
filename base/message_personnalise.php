@@ -45,11 +45,10 @@ function message_personnalise_declarer_tables_objets_sql($tables) {
 	$tables['spip_mp_messages'] = array(
 		'type' => 'mp_message',
 		'principale' => 'oui',
-		'table_objet_surnoms' => array('mpmessage'), // table_objet('mp_message') => 'mp_messages' 
+		'table_objet_surnoms' => array('mpmessage'), // table_objet('mp_message') => 'mp_messages'
 		'field'=> array(
 			'id_mp_message'      => 'bigint(21) NOT NULL',
 			'titre'              => 'varchar(50) NOT NULL DEFAULT ""',
-			'sujet'              => 'varchar(255) NOT NULL DEFAULT ""',
 			'type'               => 'varchar(50) NOT NULL DEFAULT ""',
 			'declencheur_statut' => 'varchar(50) NOT NULL DEFAULT ""',
 			'declencheur_qui'    => 'varchar(50) NOT NULL DEFAULT ""',
@@ -70,9 +69,9 @@ function message_personnalise_declarer_tables_objets_sql($tables) {
 		),
 		'titre' => 'titre AS titre, lang AS lang',
 		'date' => 'date',
-		'champs_editables'  => array('titre', 'sujet', 'type', 'declencheur_statut', 'declencheur_qui', 'descriptif', 'texte'),
-		'champs_versionnes' => array('titre', 'sujet', 'type', 'declencheur_statut', 'declencheur_qui', 'descriptif', 'texte'),
-		'rechercher_champs' => array("titre" => 10, "sujet" => 5, "type" => 2, "descriptif" => 5, "texte" => 8),
+		'champs_editables'  => array('titre', 'type', 'declencheur_statut', 'declencheur_qui', 'descriptif', 'texte'),
+		'champs_versionnes' => array('titre', 'type', 'declencheur_statut', 'declencheur_qui', 'descriptif', 'texte'),
+		'rechercher_champs' => array("titre" => 10, "type" => 2, "descriptif" => 5, "texte" => 8),
 		'tables_jointures'  => array('spip_mp_messages_liens'),
 		'statut_textes_instituer' => array(
 			'prepa'    => 'texte_statut_en_cours_redaction',
