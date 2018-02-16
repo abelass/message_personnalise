@@ -2,6 +2,11 @@
 
 [(#ENV{type}|oui)
 	#SET{definitions, #ENV{_definitions}|table_valeur{#ENV{type}}}
+	#SET{champs_disponibles,#ENV{champs_disponibles}|table_valeur{#ENV{type}}}
+	[(#GET{champs_disponibles}|oui)
+		#SET{champs, #VAL{<br><span>@}|concat{#GET{champs_disponibles}|implode{'@</span>, <span>@'}|concat{@</span>}}}
+		#SET{champ_texte_explication_racoursis,<br>#VAL{mp_message:champ_texte_explication_racoursis}|_T{#ARRAY{champs,#GET{champs}}}}
+	]
 ]
 
 [(#SAISIE{selection, type, obligatoire=oui,
@@ -13,6 +18,12 @@
 		label=[(#VAL{mp_message:champ_[(#CLE)]_label}|_T)],
 		data=#VALEUR})]
 </BOUCLE_declencheurs>
+
+
+[(#SAISIE{textarea, texte, obligatoire=oui,
+	label=<:mp_message:champ_texte_label:>,
+	explication=#VAL{mp_message:champ_texte_explication}|_T|concat{#GET{champ_texte_explication_racoursis}},
+	conteneur_class=pleine_largeur, class=inserer_barre_edition, rows=8})]
 
 <script type="text/javascript">
 	$(function() {

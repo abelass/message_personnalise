@@ -15,11 +15,6 @@
 			[(#SAISIE{textarea, descriptif,
 				label=<:mp_message:champ_descriptif_label:>,
 				explication=<:mp_message:champ_descriptif_explication:>, rows=4 })]
-			#SET{champs, #VAL{<br><span>@}|concat{#ENV{champs_disponibles}|implode{'@</span>, <span>@'}|concat{@</span>}}}
-			[(#SAISIE{textarea, texte, obligatoire=oui,
-				label=<:mp_message:champ_texte_label:>,
-				explication=#VAL{mp_message:champ_texte_explication}|_T{#ARRAY{champs,#GET{champs}}} ,
-				conteneur_class=pleine_largeur, class=inserer_barre_edition, rows=8})]
 
 		</div>
 		[(#REM) ajouter les saisies supplementaires : extra et autre, a cet endroit ]
