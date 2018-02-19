@@ -81,10 +81,19 @@ function chercher_message_personnalise($objet, $id_objet, $type, $message, $obje
 
 	// On prend le message personnalisé
 	if ($texte) {
+
+		// On cherche
 		preg_match_all('#@(.+?)@#s', $texte, $matches);
 
 		foreach ($matches[1] as $champ) {
-			$args[$champ] = isset($data_objet[$champ]) ? $data_objet[$champ] : generer_info_entite($id_objet, $objet, $champ);
+			$valeur = isset($data_objet[$champ]) ? $data_objet[$champ] : generer_info_entite($id_objet, $objet, $champ);
+
+			if($definition_champ = charger_fonction($champ, "messages_personnalises_champs", true)) {
+				$valeur = $definition_champ($valeur);
+			}
+
+
+			$args[$champ] = $valeur;
 		}
 
 		$message = propre(_L($texte, $args));
