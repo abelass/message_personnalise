@@ -87,13 +87,7 @@ function chercher_message_personnalise($objet, $id_objet, $type, $message, $obje
 
 		foreach ($matches[1] as $champ) {
 			$valeur = isset($data_objet[$champ]) ? $data_objet[$champ] : generer_info_entite($id_objet, $objet, $champ);
-
-			if($definition_champ = charger_fonction($champ, "messages_personnalises_champs", true)) {
-				$valeur = $definition_champ($valeur);
-			}
-
-
-			$args[$champ] = $valeur;
+			$args[$champ] = mp_chercher_valeur_champ($champ, $valeur, $data_objet);
 		}
 
 		$message = propre(_L($texte, $args));
@@ -144,4 +138,11 @@ function balise_MESSAGE_PERSONNALISE_dist($p) {
  */
 function calculer_balise_MESSAGE_PERSONNALISE($objet, $id_objet, $type, $message, $objets_cibles, $declencheurs) {
 	return chercher_message_personnalise($objet, $id_objet, $type, $message, $objets_cibles, $declencheurs);
+}
+
+function mp_chercher_valeur_champ($champ, $valeur, $data_objet) {
+	if($definition_champ = charger_fonction($champ, "messages_personnalises_champs", true)) {
+		$valeur = $definition_champ($valeur, $data_objet);
+	}
+	return $valeur;
 }
