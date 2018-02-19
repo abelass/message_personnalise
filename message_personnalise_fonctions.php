@@ -140,6 +140,15 @@ function calculer_balise_MESSAGE_PERSONNALISE($objet, $id_objet, $type, $message
 	return chercher_message_personnalise($objet, $id_objet, $type, $message, $objets_cibles, $declencheurs);
 }
 
+/**
+ * Cherche si une fonctionne spécifique existe pour déterminer la valeur d'¡un champ.
+ * Sino, retourne la valeur original.
+ *
+ * @param integer $champ
+ * @param integer $valeur
+ * @param array $data_objet
+ * @return integer
+ */
 function mp_chercher_valeur_champ($champ, $valeur, $data_objet) {
 	if($definition_champ = charger_fonction($champ, "messages_personnalises_champs", true)) {
 		$valeur = $definition_champ($valeur, $data_objet);
