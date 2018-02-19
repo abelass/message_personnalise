@@ -46,7 +46,6 @@ function chercher_message_personnalise($objet, $id_objet, $type, $message, $obje
 		else {
 			$where = id_table_objet($objet) . '=' . $id_objet;
 		}
-		//print_r($champs);
 		$data_objet = sql_fetsel($champs, $from, $where);
 	}
 
@@ -84,13 +83,12 @@ function chercher_message_personnalise($objet, $id_objet, $type, $message, $obje
 	if ($texte) {
 		preg_match_all('#@(.+?)@#s', $texte, $matches);
 
-		$args = array();
 		foreach ($matches[1] as $champ) {
 			$args[$champ] = isset($data_objet[$champ]) ? $data_objet[$champ] : generer_info_entite($id_objet, $objet, $champ);
 		}
+
 		$message = propre(_L($texte, $args));
 	}
-
 	// Sinon le message original.
 	else {
 		$message = _T($message);
