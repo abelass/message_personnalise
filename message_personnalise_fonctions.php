@@ -30,19 +30,31 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  * @return string
  */
 function chercher_message_personnalise($objet, $id_objet, $type, $message, $objets_cibles, $declencheurs) {
+	// Charger les définitions spécifiques.
+	if ($definition = charger_fonction($type, "messages_personnalises", true)) {
+		$definition = $definition();
+		$requete = isset($definition['requete']) ? $definition['requete'] : '';
+	}
+
+	// Les infos de l'objet.
+	if ($objet && $id_objet) {
+		$champs = isset($requete['champs']) ? $requete['champs'] : '*';
+		$from = isset($requete['from']) ? $requete['from'] : table_objet_sql($objet);
+		if (isset($requete['where'])) {
+			$where = $requete['where'];
+		}
+		else {
+			$where = id_table_objet($objet) . '=' . $id_objet;
+		}
+		//print_r($champs);
+		$data_objet = sql_fetsel($champs, $from, $where);
+	}
+
+	// Générer la requête.
 	$where = array(
 		'm.statut LIKE ' . sql_quote('publie')
 	);
 	$from = 'spip_mp_messages AS m LEFT JOIN spip_mp_messages_liens as ml USING (id_mp_message)';
-
-	// Les infos de l'objet.
-	if ($objet && $id_objet) {
-		$table = table_objet_sql($objet);
-		$identifiant = id_table_objet($objet);
-		$data_objet = sql_fetsel('*', $table, $identifiant . '=' . $id_objet);
-	}
-
-	// Générer la requête.
 	if ($type) {
 		$where[] = 'm.type LIKE' . sql_quote($type);
 	}
@@ -70,9 +82,16 @@ function chercher_message_personnalise($objet, $id_objet, $type, $message, $obje
 
 	// On prend le message personnalisé
 	if ($texte) {
-		$message = $texte;
+		preg_match_all('#@(.+?)@#s', $texte, $matches);
+
+		$args = array();
+		foreach ($matches[1] as $champ) {
+			$args[$champ] = isset($data_objet[$champ]) ? $data_objet[$champ] : generer_info_entite($id_objet, $objet, $champ);
+		}
+		$message = _L($texte, $args);
 	}
-	// Sinon le message orifginal.
+
+	// Sinon le message original.
 	else {
 		$message = _T($message);
 	}

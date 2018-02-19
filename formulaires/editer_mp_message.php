@@ -8,7 +8,6 @@
  * @licence    GNU/GPL
  * @package    SPIP\Message_personnalise\Formulaires
  */
-
 if (!defined('_ECRIRE_INC_VERSION')) {
 	return;
 }
@@ -16,30 +15,31 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 include_spip('inc/actions');
 include_spip('inc/editer');
 
-
 /**
  * Identifier le formulaire en faisant abstraction des paramètres qui ne représentent pas l'objet edité
  *
  * @param int|string $id_mp_message
- *     Identifiant du mp_message. 'new' pour un nouveau mp_message.
+ *        	Identifiant du mp_message. 'new' pour un nouveau mp_message.
  * @param string $retour
- *     URL de redirection après le traitement
+ *        	URL de redirection après le traitement
  * @param string $associer_objet
- *     Éventuel `objet|x` indiquant de lier le mp_message créé à cet objet,
- *     tel que `article|3`
+ *        	Éventuel `objet|x` indiquant de lier le mp_message créé à cet objet,
+ *        	tel que `article|3`
  * @param int $lier_trad
- *     Identifiant éventuel d'un mp_message source d'une traduction
+ *        	Identifiant éventuel d'un mp_message source d'une traduction
  * @param string $config_fonc
- *     Nom de la fonction ajoutant des configurations particulières au formulaire
+ *        	Nom de la fonction ajoutant des configurations particulières au formulaire
  * @param array $row
- *     Valeurs de la ligne SQL du mp_message, si connu
+ *        	Valeurs de la ligne SQL du mp_message, si connu
  * @param string $hidden
- *     Contenu HTML ajouté en même temps que les champs cachés du formulaire.
- * @return string
- *     Hash du formulaire
+ *        	Contenu HTML ajouté en même temps que les champs cachés du formulaire.
+ * @return string Hash du formulaire
  */
 function formulaires_editer_mp_message_identifier_dist($id_mp_message = 'new', $retour = '', $associer_objet = '', $lier_trad = 0, $config_fonc = '', $row = array(), $hidden = '') {
-	return serialize(array(intval($id_mp_message), $associer_objet));
+	return serialize(array(
+		intval($id_mp_message),
+		$associer_objet
+	));
 }
 
 /**
@@ -50,22 +50,21 @@ function formulaires_editer_mp_message_identifier_dist($id_mp_message = 'new', $
  * @uses formulaires_editer_objet_charger()
  *
  * @param int|string $id_mp_message
- *     Identifiant du mp_message. 'new' pour un nouveau mp_message.
+ *        	Identifiant du mp_message. 'new' pour un nouveau mp_message.
  * @param string $retour
- *     URL de redirection après le traitement
+ *        	URL de redirection après le traitement
  * @param string $associer_objet
- *     Éventuel `objet|x` indiquant de lier le mp_message créé à cet objet,
- *     tel que `article|3`
+ *        	Éventuel `objet|x` indiquant de lier le mp_message créé à cet objet,
+ *        	tel que `article|3`
  * @param int $lier_trad
- *     Identifiant éventuel d'un mp_message source d'une traduction
+ *        	Identifiant éventuel d'un mp_message source d'une traduction
  * @param string $config_fonc
- *     Nom de la fonction ajoutant des configurations particulières au formulaire
+ *        	Nom de la fonction ajoutant des configurations particulières au formulaire
  * @param array $row
- *     Valeurs de la ligne SQL du mp_message, si connu
+ *        	Valeurs de la ligne SQL du mp_message, si connu
  * @param string $hidden
- *     Contenu HTML ajouté en même temps que les champs cachés du formulaire.
- * @return array
- *     Environnement du formulaire
+ *        	Contenu HTML ajouté en même temps que les champs cachés du formulaire.
+ * @return array Environnement du formulaire
  */
 function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $retour = '', $associer_objet = '', $lier_trad = 0, $config_fonc = '', $row = array(), $hidden = '') {
 	$valeurs = formulaires_editer_objet_charger('mp_message', $id_mp_message, '', $lier_trad, $retour, $config_fonc, $row, $hidden);
@@ -89,22 +88,24 @@ function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $ret
 							$valeurs['_definitions'][$type]['declencheur_' . $declencheur] = $data;
 						}
 					}
-			}
+				}
 
-			// Charger les définitions spécifiques.
-			/*if ($message = charger_fonction($nom, "messages_personnalises", true)) {
-				$message = $message($valeurs);
-				foreach ($message as $champ => $valeur) {
-					if ($champ != 'declencheurs') {
-						$valeurs[$champ] = $valeur;
-					}
-					elseif (is_array($valeur)) {
-						foreach ($valeur as $type => $data) {
-							$valeurs['_definitions'][$nom]['declencheur_' . $type] = $data;
-						}
-					}
-				}*/
-				//print_r($message);
+				// Charger les définitions spécifiques.
+				/*
+				 * if ($message = charger_fonction($nom, "messages_personnalises", true)) {
+				 * $message = $message($valeurs);
+				 * foreach ($message as $champ => $valeur) {
+				 * if ($champ != 'declencheurs') {
+				 * $valeurs[$champ] = $valeur;
+				 * }
+				 * elseif (is_array($valeur)) {
+				 * foreach ($valeur as $type => $data) {
+				 * $valeurs['_definitions'][$nom]['declencheur_' . $type] = $data;
+				 * }
+				 * }
+				 * }
+				 */
+				// print_r($message);
 			}
 		}
 	}
@@ -120,27 +121,30 @@ function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $ret
  * @uses formulaires_editer_objet_verifier()
  *
  * @param int|string $id_mp_message
- *     Identifiant du mp_message. 'new' pour un nouveau mp_message.
+ *        	Identifiant du mp_message. 'new' pour un nouveau mp_message.
  * @param string $retour
- *     URL de redirection après le traitement
+ *        	URL de redirection après le traitement
  * @param string $associer_objet
- *     Éventuel `objet|x` indiquant de lier le mp_message créé à cet objet,
- *     tel que `article|3`
+ *        	Éventuel `objet|x` indiquant de lier le mp_message créé à cet objet,
+ *        	tel que `article|3`
  * @param int $lier_trad
- *     Identifiant éventuel d'un mp_message source d'une traduction
+ *        	Identifiant éventuel d'un mp_message source d'une traduction
  * @param string $config_fonc
- *     Nom de la fonction ajoutant des configurations particulières au formulaire
+ *        	Nom de la fonction ajoutant des configurations particulières au formulaire
  * @param array $row
- *     Valeurs de la ligne SQL du mp_message, si connu
+ *        	Valeurs de la ligne SQL du mp_message, si connu
  * @param string $hidden
- *     Contenu HTML ajouté en même temps que les champs cachés du formulaire.
- * @return array
- *     Tableau des erreurs
+ *        	Contenu HTML ajouté en même temps que les champs cachés du formulaire.
+ * @return array Tableau des erreurs
  */
 function formulaires_editer_mp_message_verifier_dist($id_mp_message = 'new', $retour = '', $associer_objet = '', $lier_trad = 0, $config_fonc = '', $row = array(), $hidden = '') {
 	$erreurs = array();
 
-	$erreurs = formulaires_editer_objet_verifier('mp_message', $id_mp_message, array('titre', 'type', 'texte'));
+	$erreurs = formulaires_editer_objet_verifier('mp_message', $id_mp_message, array(
+		'titre',
+		'type',
+		'texte'
+	));
 
 	return $erreurs;
 }
@@ -153,22 +157,21 @@ function formulaires_editer_mp_message_verifier_dist($id_mp_message = 'new', $re
  * @uses formulaires_editer_objet_traiter()
  *
  * @param int|string $id_mp_message
- *     Identifiant du mp_message. 'new' pour un nouveau mp_message.
+ *        	Identifiant du mp_message. 'new' pour un nouveau mp_message.
  * @param string $retour
- *     URL de redirection après le traitement
+ *        	URL de redirection après le traitement
  * @param string $associer_objet
- *     Éventuel `objet|x` indiquant de lier le mp_message créé à cet objet,
- *     tel que `article|3`
+ *        	Éventuel `objet|x` indiquant de lier le mp_message créé à cet objet,
+ *        	tel que `article|3`
  * @param int $lier_trad
- *     Identifiant éventuel d'un mp_message source d'une traduction
+ *        	Identifiant éventuel d'un mp_message source d'une traduction
  * @param string $config_fonc
- *     Nom de la fonction ajoutant des configurations particulières au formulaire
+ *        	Nom de la fonction ajoutant des configurations particulières au formulaire
  * @param array $row
- *     Valeurs de la ligne SQL du mp_message, si connu
+ *        	Valeurs de la ligne SQL du mp_message, si connu
  * @param string $hidden
- *     Contenu HTML ajouté en même temps que les champs cachés du formulaire.
- * @return array
- *     Retours des traitements
+ *        	Contenu HTML ajouté en même temps que les champs cachés du formulaire.
+ * @return array Retours des traitements
  */
 function formulaires_editer_mp_message_traiter_dist($id_mp_message = 'new', $retour = '', $associer_objet = '', $lier_trad = 0, $config_fonc = '', $row = array(), $hidden = '') {
 	$retours = formulaires_editer_objet_traiter('mp_message', $id_mp_message, '', $lier_trad, $retour, $config_fonc, $row, $hidden);
@@ -180,7 +183,11 @@ function formulaires_editer_mp_message_traiter_dist($id_mp_message = 'new', $ret
 		if ($objet and $id_objet and autoriser('modifier', $objet, $id_objet)) {
 			include_spip('action/editer_liens');
 
-			objet_associer(array('mp_message' => $id_mp_message), array($objet => $id_objet));
+			objet_associer(array(
+				'mp_message' => $id_mp_message
+			), array(
+				$objet => $id_objet
+			));
 
 			if (isset($retours['redirect'])) {
 				$retours['redirect'] = parametre_url($retours['redirect'], 'id_lien_ajoute', $id_mp_message, '&');
