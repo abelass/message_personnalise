@@ -88,7 +88,7 @@ function chercher_message_personnalise($objet, $id_objet, $type, $message, $obje
 		foreach ($matches[1] as $champ) {
 			$args[$champ] = isset($data_objet[$champ]) ? $data_objet[$champ] : generer_info_entite($id_objet, $objet, $champ);
 		}
-		$message = _L($texte, $args);
+		$message = propre(_L($texte, $args));
 	}
 
 	// Sinon le message original.
