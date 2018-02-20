@@ -67,6 +67,7 @@ function formulaires_editer_mp_message_identifier_dist($id_mp_message = 'new', $
  * @return array Environnement du formulaire
  */
 function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $retour = '', $associer_objet = '', $lier_trad = 0, $config_fonc = '', $row = array(), $hidden = '') {
+	include_spip('inc/message_personnalise');
 	$valeurs = formulaires_editer_objet_charger('mp_message', $id_mp_message, '', $lier_trad, $retour, $config_fonc, $row, $hidden);
 	$messages_personalisables = find_all_in_path("messages_personnalises/", '^');
 
@@ -76,8 +77,7 @@ function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $ret
 			$type = $explode[0];
 
 			// Charger les définitions spécifiques.
-			if ($message = charger_fonction($type, "messages_personnalises", true)) {
-				$message = $message($valeurs);
+			if ($message = mp_charger_definition($type, $valeurs)) {
 				$valeurs['_types'][$type] = $message['nom'];
 				foreach ($message as $champ => $valeur) {
 					if ($champ != 'declencheurs') {

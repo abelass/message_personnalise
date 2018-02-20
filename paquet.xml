@@ -8,10 +8,7 @@
 	documentation=""
 	schema="1.0.0"
 >
-	<!--
-		Paquet généré le 2018-02-12 14:39:59
-		(Vous pouvez bien entendu supprimer ces commentaires)
-	-->
+
 
 	<nom>Message personnalisé</nom>
 	<!-- Permet de personnaliser certain message  système -->
@@ -39,6 +36,7 @@
 		* parents d'onglets... configuration, plugins, statistiques, ...
 		<onglet nom="message_personnalise" titre="message_personnalise:message_personnalise_titre" parent="configuration" icone="images/message_personnalise-24.png" />
 	-->
+	<pipeline nom="mp_charger_definition" action='' />
 
 	<necessite nom="saisies" compatibilite="[2.4.0;]" />
 
