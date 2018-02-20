@@ -89,23 +89,6 @@ function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $ret
 						}
 					}
 				}
-
-				// Charger les définitions spécifiques.
-				/*
-				 * if ($message = charger_fonction($nom, "messages_personnalises", true)) {
-				 * $message = $message($valeurs);
-				 * foreach ($message as $champ => $valeur) {
-				 * if ($champ != 'declencheurs') {
-				 * $valeurs[$champ] = $valeur;
-				 * }
-				 * elseif (is_array($valeur)) {
-				 * foreach ($valeur as $type => $data) {
-				 * $valeurs['_definitions'][$nom]['declencheur_' . $type] = $data;
-				 * }
-				 * }
-				 * }
-				 */
-				// print_r($message);
 			}
 		}
 	}

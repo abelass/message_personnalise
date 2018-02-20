@@ -36,18 +36,23 @@
 		* parents d'onglets... configuration, plugins, statistiques, ...
 		<onglet nom="message_personnalise" titre="message_personnalise:message_personnalise_titre" parent="configuration" icone="images/message_personnalise-24.png" />
 	-->
-	<pipeline nom="mp_charger_definition" action='' />
+
 
 	<necessite nom="saisies" compatibilite="[2.4.0;]" />
 
+	<!-- Declaration de pipelines -->
+	<pipeline nom="mp_charger_definition" action='' />
 
+	<!-- Appels des pipeleines
 	<pipeline nom="autoriser" inclure="message_personnalise_autorisations.php" />
+	<pipeline nom="affiche_milieu" inclure="message_personnalise_pipelines.php" />
+	<pipeline nom="optimiser_base_disparus" inclure="message_personnalise_pipelines.php" />
+	<pipeline nom="recuperer_fond" inclure="message_personnalise_pipelines.php" />
 
 	<pipeline nom="declarer_tables_objets_sql" inclure="base/message_personnalise.php" />
 	<pipeline nom="declarer_tables_interfaces" inclure="base/message_personnalise.php" />
 	<pipeline nom="declarer_tables_auxiliaires" inclure="base/message_personnalise.php" />
-	<pipeline nom="affiche_milieu" inclure="message_personnalise_pipelines.php" />
-	<pipeline nom="optimiser_base_disparus" inclure="message_personnalise_pipelines.php" />
+
 
 	<menu nom="mp_messages" titre="mp_message:titre_mp_messages" parent="menu_edition" icone="images/mp_message-16.png" action="mp_messages" />
 </paquet>

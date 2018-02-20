@@ -66,3 +66,19 @@ function message_personnalise_optimiser_base_disparus($flux) {
 
 	return $flux;
 }
+
+/**
+ * Permet de compléter ou modifier le résultat de la compilation d’un squelette donné.
+ *
+ * @pipeline recuperer_fond
+ *
+ * @param array $flux
+ *        	Données du pipeline
+ * @return array Données du pipeline
+ */
+function message_personnalise_recuperer_fond($flux) {
+	$fond = $flux['args']['fond'];
+	$contexte = $flux['data']['contexte'];
+
+	return $flux;
+}
