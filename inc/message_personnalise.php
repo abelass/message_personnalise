@@ -15,21 +15,21 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 /**
  * Regarde our un éventuel message personnalisé, sino retourne l'original.
  *
- * @param string $objet
- *        	Objet du context.
- * @param integer $id_objet
- *        	identifiant de l'objet du context.
- * @param string $type
- *        	Type de message.
  * @param string $message
- *        	Les message original.
- * @param array $objets_cibles
- *        	Les objets auxquelles ssont liés des messages.
- * @param array $declencheurs
+ *        	Le message original.
+ * @param integer $type
+ *        	Le type de message.
+ * @param array $args
+ *        	Les variables du contexte.
  *
  * @return string
  */
-function chercher_message_personnalise($objet, $id_objet, $type, $message, $objets_cibles, $declencheurs) {
+function chercher_message_personnalise($message, $type, $args = array()) {
+
+	foreach ($args AS $champ => $valeur) {
+		$$champ = $valeur;
+	}
+
 	// Charger les définitions spécifiques.
 	$definition = mp_charger_definition($type, array(
 		'objet' => $objet,
@@ -41,9 +41,8 @@ function chercher_message_personnalise($objet, $id_objet, $type, $message, $obje
 		)
 	);
 
-	$requete = isset($definition['requete']) ? $definition['requete'] : array();
-
 	// Les infos de l'objet.
+	$requete = isset($definition['requete']) ? $definition['requete'] : array();
 	if ($objet && $id_objet) {
 		$champs = isset($requete['champs']) ? $requete['champs'] : '*';
 		$from = isset($requete['from']) ? $requete['from'] : table_objet_sql($objet);
@@ -61,6 +60,7 @@ function chercher_message_personnalise($objet, $id_objet, $type, $message, $obje
 		'm.statut LIKE ' . sql_quote('publie')
 	);
 	$from = 'spip_mp_messages AS m LEFT JOIN spip_mp_messages_liens as ml USING (id_mp_message)';
+
 	if ($type) {
 		$where[] = 'm.type LIKE' . sql_quote($type);
 	}
@@ -108,13 +108,12 @@ function chercher_message_personnalise($objet, $id_objet, $type, $message, $obje
 }
 
 /**
- * Cherche si une fonctionne spécifique existe pour déterminer la valeur d'¡un champ.
- * Sinon, retourne la valeur original.
+ * Cherche un un set de configuration pour le type de message.
  *
- * @param integer $champ
- * @param integer $valeur
- * @param array $data_objet
- * @return integer
+ * @param integer $type
+ * @param array $args
+ *
+ * @return array
  */
 function mp_charger_definition($type, $args = array()) {
 	if ($definition = charger_fonction($type, "messages_personnalises", true)) {
@@ -137,7 +136,10 @@ function mp_charger_definition($type, $args = array()) {
  * @return integer
  */
 function mp_chercher_valeur_champ($champ, $valeur, $data_objet) {
-	if($definition_champ = charger_fonction($champ, "messages_personnalises_champs", true)) {
+	if($definition_champ = charger_fonction(
+			$champ,
+			"messages_personnalises_champs",
+			true)) {
 		$valeur = $definition_champ($valeur, $data_objet);
 	}
 	return $valeur;

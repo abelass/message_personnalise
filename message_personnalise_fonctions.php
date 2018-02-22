@@ -52,5 +52,11 @@ function balise_MESSAGE_PERSONNALISE_dist($p) {
  */
 function calculer_balise_MESSAGE_PERSONNALISE($objet, $id_objet, $type, $message, $objets_cibles, $declencheurs) {
 	include_spip('inc/message_personnalise');
-	return chercher_message_personnalise($objet, $id_objet, $type, $message, $objets_cibles, $declencheurs);
+	return chercher_message_personnalise($message, $type, array(
+			'objet' => $objet,
+			'id_objet' => $id_objet,
+			'objets_cibles' => $objets_cibles,
+			'declencheurs' => $declencheurs
+		)
+	);
 }

@@ -80,5 +80,42 @@ function message_personnalise_recuperer_fond($flux) {
 	$fond = $flux['args']['fond'];
 	$contexte = $flux['data']['contexte'];
 
+	$messages_personalisables = find_all_in_path("messages_personnalises/", '^');
+
+	if (is_array($messages_personalisables)) {
+
+		foreach (array_keys($messages_personalisables) as $fichier) {
+			$explode = explode('.', $fichier);
+			$type = $explode[0];
+
+			// Charger les définitions spécifiques.
+			if (include_spip('inc/message_personnalise') AND
+					$definition = mp_charger_definition($type, $valeurs) AND
+					isset($definition['fond']) AND
+					$definition['fond'] == $fond) {
+
+				if (!isset($contexte['objet']) AND isset($definition['objet'])) {
+					$contexte['objet'] = $definition['objet'];
+				}
+
+				if (isset($contexte['objet']) AND !isset($contexte['id_objet'])) {
+					if (isset($definition['_id_objet'])) {
+						$contexte['id_objet'] = $contexte[$definition['_id_objet']];
+					}
+					else {
+						$_id_objet = id_table_objet($contexte['objet']);
+						$contexte['id_objet'] = isset($contexte[$_id_objet]) ? $contexte[$_id_objet] : '';
+					}
+				}
+
+				$flux['data']['texte'] = chercher_message_personnalise(
+						$contexte['texte'],
+						$type,
+						$contexte
+					);
+			}
+		}
+	}
+
 	return $flux;
 }
