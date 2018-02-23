@@ -1,13 +1,26 @@
 #SET{definitions,#ARRAY}
 
-[(#ENV{type}|oui)
+<BOUCLE_test(CONDITION){si #ENV{type}}>
 	#SET{definitions, #ENV{_definitions}|table_valeur{#ENV{type}}}
 	#SET{champs_disponibles,#ENV{champs_disponibles}|table_valeur{#ENV{type}}}
 	[(#GET{champs_disponibles}|oui)
 		#SET{champs, #VAL{<br><span>@}|concat{#GET{champs_disponibles}|implode{'@</span>, <span>@'}|concat{@</span>}}}
-		#SET{champ_texte_explication_racoursis,<br>#VAL{mp_message:champ_texte_explication_racoursis}|_T{#ARRAY{champs,#GET{champs}}}}
+		#SET{champ_texte_explication_raccoursis,<br><br>#VAL{mp_message:champ_texte_explication_raccoursis}|_T{#ARRAY{champs,#GET{champs}}}}
 	]
-]
+	#SET{inclures_disponibles, #ENV**{inclures}|table_valeur{#ENV{type}}}
+
+	#SET{inclures,#ARRAY}
+	<BOUCLE_inclure(DATA){source tableau, #GET{inclures_disponibles}}>
+		#SET{inclures,#GET{inclures}|push{#VAL{<span>*I*}|concat{#CLE}|concat{*I* </span> <span>}|concat{ (#TITRE)</span>}}}
+	</BOUCLE_inclure>
+		#SET{inclures, #VAL{<br>}|concat{#GET{inclures}|implode{''}}}
+		#SET{champ_texte_explication_inclures,<br><br>#VAL{mp_message:champ_texte_explication_inclures}|_T{#ARRAY{inclures,#GET{inclures}}}}
+	</B_inclure>
+
+
+
+</BOUCLE_test>
+
 
 [(#SAISIE{selection, type, obligatoire=oui,
 	label=<:mp_message:champ_type_label:>,
@@ -22,7 +35,10 @@
 
 [(#SAISIE{textarea, texte, obligatoire=oui,
 	label=<:mp_message:champ_texte_label:>,
-	explication=#VAL{mp_message:champ_texte_explication}|_T|concat{#GET{champ_texte_explication_racoursis}},
+	explication=#VAL{mp_message:champ_texte_explication}
+		|_T
+		|concat{#GET{champ_texte_explication_raccoursis}}
+		|concat{#GET{champ_texte_explication_inclures}},
 	conteneur_class=pleine_largeur, class=inserer_barre_edition, rows=8})]
 
 <script type="text/javascript">

@@ -89,15 +89,29 @@ function chercher_message_personnalise($message, $type, $args = array()) {
 
 	// On prend le message personnalisé
 	if ($texte) {
-		// On cherche
-		preg_match_all('#@(.+?)@#s', $texte, $matches);
+		// On rempace les raccoursis
+		preg_match_all('#@(.+?)@#s', $texte, $match);
 
-		foreach ($matches[1] as $champ) {
+		foreach ($match[1] as $champ) {
 			$valeur = isset($data_objet[$champ]) ? $data_objet[$champ] : generer_info_entite($id_objet, $objet, $champ);
 			$args[$champ] = mp_chercher_valeur_champ($champ, $valeur, $data_objet);
 		}
 
 		$message = propre(_L($texte, $args));
+
+		// in remplace les inclures
+		preg_match_all('#\*I\*(.+?)\*I\*#s', $texte, $match);
+		$pattern = array();
+		$replace = array();
+		foreach ($match[1] as $champ) {
+			$pattern[] = '#\*I\*#';
+			print $champ;
+			$valeur = 'test';
+			$args[$champ] = 'test';
+		}
+
+
+
 	}
 	// Sinon le message original.
 	else {

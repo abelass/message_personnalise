@@ -86,7 +86,8 @@ function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $ret
 			if ($message = mp_charger_definition($type, $valeurs)) {
 				$valeurs['_types'][$type] = $message['nom'];
 				foreach ($message as $champ => $valeur) {
-					if ($champ != 'declencheurs') {
+
+					if (!in_array($champ, array('declencheurs'))) {
 						$valeurs[$champ][$type] = $valeur;
 					}
 					elseif (is_array($valeur)) {
