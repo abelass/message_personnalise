@@ -67,7 +67,7 @@ function chercher_message_personnalise($message, $type, $args = array()) {
 
 	if (is_array($declencheurs)) {
 		foreach ($declencheurs as $declencheur => $valeur) {
-			$where[] = 'declencheur_' . $declencheur . ' LIKE ' . sql_quote($valeur);
+			$where[] = 'declencheur_' . $declencheur . ' LIKE ' . sql_quote('%' . $valeur . '%');
 		}
 	}
 

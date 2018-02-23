@@ -14,7 +14,7 @@
 	data=#ENV{_types}})]
 
 <BOUCLE_declencheurs(DATA){source tableau, #GET{definitions}}>
-	[(#SAISIE{selection, #CLE,
+	[(#SAISIE{selection_multiple, #CLE,
 		label=[(#VAL{mp_message:champ_[(#CLE)]_label}|_T)],
 		data=#VALEUR})]
 </BOUCLE_declencheurs>

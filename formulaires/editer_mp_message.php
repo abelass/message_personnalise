@@ -69,6 +69,12 @@ function formulaires_editer_mp_message_identifier_dist($id_mp_message = 'new', $
 function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $retour = '', $associer_objet = '', $lier_trad = 0, $config_fonc = '', $row = array(), $hidden = '') {
 	include_spip('inc/message_personnalise');
 	$valeurs = formulaires_editer_objet_charger('mp_message', $id_mp_message, '', $lier_trad, $retour, $config_fonc, $row, $hidden);
+
+	foreach (array('declencheur_statut', 'declencheur_qui') AS $champ) {
+		if (isset($valeurs[$champ])) {
+			$valeurs[$champ] = explode(',', $valeurs[$champ]);
+		}
+	}
 	$messages_personalisables = find_all_in_path("messages_personnalises/", '^');
 
 	if (is_array($messages_personalisables)) {
@@ -129,6 +135,14 @@ function formulaires_editer_mp_message_verifier_dist($id_mp_message = 'new', $re
 		'texte'
 	));
 
+	if (count($erreurs) == 0) {
+		foreach (array('declencheur_statut', 'declencheur_qui') AS $champ) {
+			if (_request($champ)) {
+				set_request($champ, implode(',', _request($champ)));
+			}
+		}
+	}
+
 	return $erreurs;
 }
 
@@ -157,6 +171,7 @@ function formulaires_editer_mp_message_verifier_dist($id_mp_message = 'new', $re
  * @return array Retours des traitements
  */
 function formulaires_editer_mp_message_traiter_dist($id_mp_message = 'new', $retour = '', $associer_objet = '', $lier_trad = 0, $config_fonc = '', $row = array(), $hidden = '') {
+
 	$retours = formulaires_editer_objet_traiter('mp_message', $id_mp_message, '', $lier_trad, $retour, $config_fonc, $row, $hidden);
 
 	// Un lien a prendre en compte ?
