@@ -94,6 +94,7 @@ function message_personnalise_recuperer_fond($flux) {
 					isset($definition['fond']) AND
 					$definition['fond'] == $fond) {
 
+				// Préparer les variables pour la requête de recherche de u message personnalisé.
 				if (!isset($contexte['objet']) AND isset($definition['objet'])) {
 					$contexte['objet'] = $definition['objet'];
 				}
@@ -108,8 +109,15 @@ function message_personnalise_recuperer_fond($flux) {
 					}
 				}
 
+				if (isset($contexte['statut'])) {
+					$contexte['declencheurs']['statut'] = $contexte['statut'];
+				}
+				if (isset($contexte['qui'])) {
+					$contexte['declencheurs']['qui'] = $contexte['qui'];
+				}
+
 				$flux['data']['texte'] = chercher_message_personnalise(
-						$contexte['texte'],
+						$flux['data']['texte'],
 						$type,
 						$contexte
 					);

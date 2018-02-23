@@ -74,6 +74,7 @@ function chercher_message_personnalise($message, $type, $args = array()) {
 	// Si plusieurs objets cible on cherche le premier message disponible.
 	if (is_array($objets_cibles)) {
 		foreach ($objets_cibles as $objet_cible => $id_objet_cible) {
+
 			$where[] = 'ml.objet LIKE ' . sql_quote($objet_cible) . ' AND ml.id_objet =' . $id_objet_cible;
 			if ($texte = sql_getfetsel('texte', $from, $where)) {
 				break;
@@ -88,7 +89,6 @@ function chercher_message_personnalise($message, $type, $args = array()) {
 
 	// On prend le message personnalisé
 	if ($texte) {
-
 		// On cherche
 		preg_match_all('#@(.+?)@#s', $texte, $matches);
 
