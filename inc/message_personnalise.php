@@ -92,13 +92,13 @@ function chercher_message_personnalise($message, $type, $args = array()) {
 	if ($texte) {
 		// On rempace les raccoursis
 		preg_match_all('#@(.+?)@#s', $texte, $match);
-
+		$valeurs = array();
 		foreach ($match[1] as $champ) {
 			$valeur = isset($data_objet[$champ]) ? $data_objet[$champ] : generer_info_entite($id_objet, $objet, $champ);
-			$args[$champ] = mp_chercher_valeur_champ($champ, $valeur, $data_objet);
+			$valeurs[$champ] = mp_chercher_valeur_champ($champ, $valeur, $data_objet);
 		}
 
-		$message = propre(_L($texte, $args));
+		$message = propre(_L($texte, $valeurs));
 
 		// in remplace les inclures
 		preg_match_all('#\*I\*(.+?)\*I\*#s', $texte, $match);
