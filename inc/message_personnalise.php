@@ -75,7 +75,6 @@ function chercher_message_personnalise($message, $type, $args = array()) {
 	// Si plusieurs objets cible on cherche le premier message disponible.
 	if (is_array($objets_cibles)) {
 		foreach ($objets_cibles as $objet_cible => $id_objet_cible) {
-
 			$where[] = 'ml.objet LIKE ' . sql_quote($objet_cible) . ' AND ml.id_objet =' . $id_objet_cible;
 			if ($texte = sql_getfetsel('texte', $from, $where)) {
 				break;
@@ -94,7 +93,9 @@ function chercher_message_personnalise($message, $type, $args = array()) {
 		preg_match_all('#@(.+?)@#s', $texte, $match);
 		$valeurs = array();
 		foreach ($match[1] as $champ) {
-			$valeur = isset($data_objet[$champ]) ? $data_objet[$champ] : generer_info_entite($id_objet, $objet, $champ);
+			$valeur = isset($data_objet[$champ]) ?
+				$data_objet[$champ] :
+				generer_info_entite($id_objet, $objet, $champ);
 			$valeurs[$champ] = mp_chercher_valeur_champ($champ, $valeur, $data_objet);
 		}
 
@@ -103,7 +104,6 @@ function chercher_message_personnalise($message, $type, $args = array()) {
 		// in remplace les inclures
 		preg_match_all('#\*I\*(.+?)\*I\*#s', $texte, $match);
 
-
 		foreach ($match[1] as $champ) {
 			$chemin = $definition['inclures'][$champ]['fond'];
 			if (find_in_path($chemin . '.html')) {
@@ -111,11 +111,7 @@ function chercher_message_personnalise($message, $type, $args = array()) {
 				$fond = recuperer_fond($chemin, $args);
 				$message = str_replace('*I*' . $champ . '*I*', $fond, $message);
 			}
-
 		}
-
-
-
 	}
 	// Sinon le message original.
 	else {
