@@ -123,6 +123,7 @@ function message_personnalise_recuperer_fond($flux) {
 					);
 			}
 		}
+
 	}
 
 	return $flux;

@@ -25,7 +25,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  * @return string
  */
 function chercher_message_personnalise($message, $type, $args = array()) {
-
+	$_id_objet = '';
 	foreach ($args AS $champ => $valeur) {
 		$$champ = $valeur;
 	}
@@ -44,6 +44,7 @@ function chercher_message_personnalise($message, $type, $args = array()) {
 	// Les infos de l'objet.
 	$requete = isset($definition['requete']) ? $definition['requete'] : array();
 	if ($objet && $id_objet) {
+		$_id_objet = id_table_objet($objet);
 		$champs = isset($requete['champs']) ? $requete['champs'] : '*';
 		$from = isset($requete['from']) ? $requete['from'] : table_objet_sql($objet);
 		if (isset($requete['where'])) {
@@ -101,13 +102,16 @@ function chercher_message_personnalise($message, $type, $args = array()) {
 
 		// in remplace les inclures
 		preg_match_all('#\*I\*(.+?)\*I\*#s', $texte, $match);
-		$pattern = array();
-		$replace = array();
+
+
 		foreach ($match[1] as $champ) {
-			$pattern[] = '#\*I\*#';
-			print $champ;
-			$valeur = 'test';
-			$args[$champ] = 'test';
+			$chemin = $definition['inclures'][$champ]['fond'];
+			if (find_in_path($chemin . '.html')) {
+				$args[$_id_objet] = $id_objet;
+				$fond = recuperer_fond($chemin, $args);
+				$message = str_replace('*I*' . $champ . '*I*', $fond, $message);
+			}
+
 		}
 
 
