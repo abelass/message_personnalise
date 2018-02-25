@@ -72,7 +72,7 @@ function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $ret
 
 	foreach (array('declencheur_statut', 'declencheur_qui') AS $champ) {
 		if (isset($valeurs[$champ])) {
-			$valeurs[$champ] = explode(',', $valeurs[$champ]);
+			$valeurs[$champ] = json_decode($valeurs[$champ]);
 		}
 	}
 	$messages_personalisables = find_all_in_path("messages_personnalises/", '^');
@@ -139,7 +139,7 @@ function formulaires_editer_mp_message_verifier_dist($id_mp_message = 'new', $re
 	if (count($erreurs) == 0) {
 		foreach (array('declencheur_statut', 'declencheur_qui') AS $champ) {
 			if (_request($champ)) {
-				set_request($champ, implode(',', _request($champ)));
+				set_request($champ, json_encode(_request($champ)));
 			}
 		}
 	}
