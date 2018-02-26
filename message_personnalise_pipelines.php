@@ -119,7 +119,8 @@ function message_personnalise_recuperer_fond($flux) {
 				$flux['data']['texte'] = chercher_message_personnalise(
 						$flux['data']['texte'],
 						$type,
-						$contexte
+						$contexte,
+						FALSE
 					);
 			}
 		}

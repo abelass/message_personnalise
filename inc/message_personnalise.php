@@ -21,10 +21,12 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  *        	Le type de message.
  * @param array $args
  *        	Les variables du contexte.
+ * @param boolean $traduire
+ *          Si message original est une chaîne de langue -> TRUE.
  *
  * @return string
  */
-function chercher_message_personnalise($message, $type, $args = array()) {
+function chercher_message_personnalise($message, $type, $args = array(), $traduire = TRUE) {
 	$_id_objet = '';
 	foreach ($args AS $champ => $valeur) {
 		$$champ = $valeur;
@@ -68,7 +70,7 @@ function chercher_message_personnalise($message, $type, $args = array()) {
 
 	if (is_array($declencheurs)) {
 		foreach ($declencheurs as $declencheur => $valeur) {
-			$where[] = 'declencheur_' . $declencheur . ' LIKE ' . sql_quote('%["' . $valeur . '"]%');
+			$where[] = 'declencheur_' . $declencheur . ' LIKE ' . sql_quote('%"' . $valeur . '"%');
 		}
 	}
 
@@ -113,8 +115,8 @@ function chercher_message_personnalise($message, $type, $args = array()) {
 			}
 		}
 	}
-	// Sinon le message original.
-	else {
+	// Sinon, si nécessaire,  le message original traduit.
+	elseif ($traduire) {
 		$message = _T($message);
 	}
 
