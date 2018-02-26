@@ -82,14 +82,43 @@ function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $ret
 			$explode = explode('.', $fichier);
 			$type = $explode[0];
 
-			// Charger les définitions spécifiques.
+			// Charger les valeurs spécifiques.
 			if ($message = mp_charger_definition($type, $valeurs)) {
+
+				// Les types de messages.
 				$valeurs['_types'][$type] = $message['nom'];
+
+				// Le reste  par type de message.
 				foreach ($message as $champ => $valeur) {
 
-					if (!in_array($champ, array('declencheurs'))) {
+					// Le cas normal
+					if (!in_array($champ, array('declencheurs', 'raccoursis'))) {
 						$valeurs[$champ][$type] = $valeur;
 					}
+					// Les raccoursis
+					elseif($champ == 'raccoursis') {
+
+						// Les remplacement de champs
+						// Si'il y des champs lies, on n'affiche que le principal.
+						$exclus = isset($valeur['champs']['lies']) ?
+							array_values($valeur['champs']['lies']) :
+							array();
+						$champs_disponibles = isset($valeur['champs']['disponibles']) ?
+							$valeur['champs']['disponibles'] :
+							array();
+
+						foreach ($champs_disponibles AS $champ_disponible) {
+							if (!in_array($champ_disponible, $exclus)) {
+								$valeurs['champs_disponibles'][$type][] = $champ_disponible;
+							}
+						}
+
+						// Les inclures
+						if (isset($valeur['inclures'])) {
+							$valeurs['inclures'][$type] = $valeur['inclures'];
+						}
+					}
+					// Les déclencheurs.
 					elseif (is_array($valeur)) {
 						foreach ($valeur as $declencheur => $data) {
 							$valeurs['_definitions'][$type]['declencheur_' . $declencheur] = $data;

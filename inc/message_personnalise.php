@@ -22,16 +22,17 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  * @param array $args
  *        	Les variables du contexte.
  * @param boolean $traduire
- *          Si message original est une chaîne de langue -> TRUE.
+ *        	Si message original est une chaîne de langue -> TRUE.
  *
  * @return string
  */
 function chercher_message_personnalise($message, $type, $args = array(), $traduire = TRUE) {
 	$_id_objet = '';
-	foreach ($args AS $champ => $valeur) {
+	$data_objet = array();
+	foreach ($args as $champ => $valeur) {
 		$$champ = $valeur;
 	}
-
+	$args['type'] = $type;
 	// Charger les définitions spécifiques.
 	$definition = mp_charger_definition($type, array(
 		'objet' => $objet,
@@ -39,14 +40,14 @@ function chercher_message_personnalise($message, $type, $args = array(), $tradui
 		'id_objet' => $id_objet,
 		'message' => $message,
 		'objets_cibles' => $objets_cibles,
-		'declencheurs' => $declencheurs,
-		)
-	);
+		'declencheurs' => $declencheurs
+	));
 
 	// Les infos de l'objet.
 	$requete = isset($definition['requete']) ? $definition['requete'] : array();
 	if ($objet && $id_objet) {
 		$_id_objet = id_table_objet($objet);
+		$args[$_id_objet] = $id_objet;
 		$champs = isset($requete['champs']) ? $requete['champs'] : '*';
 		$from = isset($requete['from']) ? $requete['from'] : table_objet_sql($objet);
 		if (isset($requete['where'])) {
@@ -55,8 +56,14 @@ function chercher_message_personnalise($message, $type, $args = array(), $tradui
 		else {
 			$where = id_table_objet($objet) . '=' . $id_objet;
 		}
+
 		$data_objet = sql_fetsel($champs, $from, $where);
 	}
+
+	$data_objet = pipeline('mp_data_objet', array(
+		'args' => $args,
+		'data' => $data_objet
+	));
 
 	// Générer la requête.
 	$where = array(
@@ -95,10 +102,9 @@ function chercher_message_personnalise($message, $type, $args = array(), $tradui
 		preg_match_all('#@(.+?)@#s', $texte, $match);
 		$valeurs = array();
 		foreach ($match[1] as $champ) {
-			$valeur = isset($data_objet[$champ]) ?
-				$data_objet[$champ] :
-				generer_info_entite($id_objet, $objet, $champ);
-			$valeurs[$champ] = mp_chercher_valeur_champ($champ, $valeur, $data_objet);
+
+			$valeur = isset($data_objet[$champ]) ? $data_objet[$champ] : generer_info_entite($id_objet, $objet, $champ);
+			$valeurs[$champ] = mp_chercher_valeur_champ($champ, $valeur, $data_objet, $definition);
 		}
 
 		$message = propre(_L($texte, $valeurs));
@@ -109,13 +115,12 @@ function chercher_message_personnalise($message, $type, $args = array(), $tradui
 		foreach ($match[1] as $champ) {
 			$chemin = $definition['inclures'][$champ]['fond'];
 			if (find_in_path($chemin . '.html')) {
-				$args[$_id_objet] = $id_objet;
 				$fond = recuperer_fond($chemin, $args);
 				$message = str_replace('*I*' . $champ . '*I*', $fond, $message);
 			}
 		}
 	}
-	// Sinon, si nécessaire,  le message original traduit.
+	// Sinon, si nécessaire, le message original traduit.
 	elseif ($traduire) {
 		$message = _T($message);
 	}
@@ -135,9 +140,8 @@ function mp_charger_definition($type, $args = array()) {
 	if ($definition = charger_fonction($type, "messages_personnalises", true)) {
 		$definition = pipeline('mp_charger_definition', array(
 			'args' => $args,
-			'data' => $definition($args),
-			)
-		);
+			'data' => $definition($args)
+		));
 	}
 	return $definition;
 }
@@ -147,16 +151,28 @@ function mp_charger_definition($type, $args = array()) {
  * Sinon, retourne la valeur original.
  *
  * @param integer $champ
+ *        	Le nom du champ.
  * @param integer $valeur
+ *        	La valeur du champ.
  * @param array $data_objet
+ *        	Toutes les valeurs de la requete.
+ * @param array $definitions_messages
+ *        	Les définitions du type de message
+ *
  * @return integer
  */
-function mp_chercher_valeur_champ($champ, $valeur, $data_objet) {
-	if($definition_champ = charger_fonction(
-			$champ,
-			"messages_personnalises_champs",
-			true)) {
+function mp_chercher_valeur_champ($champ, $valeur, $data_objet, $definitions_messages) {
+
+	// Une fonction spéciale qui modifie la valeur.
+	if ($definition_champ = charger_fonction($champ, "messages_personnalises_champs", true)) {
 		$valeur = $definition_champ($valeur, $data_objet);
 	}
+	// Sinon, si pas de valeur, on cherche une éventuelle valeur liée.
+	elseif (!$valeur and
+			isset($definitions_messages['raccoursis']['champs']['lies'][$champ]) and
+			$champ_lie = $definitions_messages['raccoursis']['champs']['lies'][$champ]) {
+		$valeur = isset($data_objet[$champ_lie]) ? $data_objet[$champ_lie] : '';
+	}
+
 	return $valeur;
 }

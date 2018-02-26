@@ -24,6 +24,7 @@
 
 	<!-- Declaration de pipelines -->
 	<pipeline nom="mp_charger_definition" action='' />
+	<pipeline nom="mp_data_objet" action='' />
 
 	<!-- Appels des pipeleines -->
 	<pipeline nom="autoriser" inclure="message_personnalise_autorisations.php" />
