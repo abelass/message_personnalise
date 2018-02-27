@@ -34,14 +34,21 @@ function chercher_message_personnalise($message, $type, $args = array(), $tradui
 	}
 	$args['type'] = $type;
 	// Charger les définitions spécifiques.
-	$definition = mp_charger_definition($type, array(
-		'objet' => $objet,
-		'type' => $type,
-		'id_objet' => $id_objet,
-		'message' => $message,
-		'objets_cibles' => $objets_cibles,
-		'declencheurs' => $declencheurs
-	));
+	$definition = mp_charger_definition(
+			$type,
+			array_merge(
+				$args,
+				array(
+					'objet' => $objet,
+					'type' => $type,
+					'qui' => $qui,
+					'id_objet' => $id_objet,
+					'message' => $message,
+					'objets_cibles' => $objets_cibles,
+					'declencheurs' => $declencheurs,
+				)
+			)
+		);
 
 	// Les infos de l'objet.
 	$requete = isset($definition['requete']) ? $definition['requete'] : array();
@@ -98,7 +105,7 @@ function chercher_message_personnalise($message, $type, $args = array(), $tradui
 
 	// On prend le message personnalisé
 	if ($texte) {
-		// On rempace les raccoursis
+		// On remplace les raccoursis
 		preg_match_all('#@(.+?)@#s', $texte, $match);
 		$valeurs = array();
 		foreach ($match[1] as $champ) {
@@ -113,10 +120,22 @@ function chercher_message_personnalise($message, $type, $args = array(), $tradui
 		preg_match_all('#\*I\*(.+?)\*I\*#s', $texte, $match);
 
 		foreach ($match[1] as $champ) {
-			$chemin = $definition['inclures'][$champ]['fond'];
-			if (find_in_path($chemin . '.html')) {
-				$fond = recuperer_fond($chemin, $args);
-				$message = str_replace('*I*' . $champ . '*I*', $fond, $message);
+			if (isset($definition['raccoursis']['inclures'][$champ]['fond']) and
+					$chemin = $definition['raccoursis']['inclures'][$champ]['fond'] and
+					find_in_path($chemin . '.html')) {
+					$fond = recuperer_fond($chemin, $args);
+					$message = str_replace('*I*' . $champ . '*I*', $fond, $message);
+
+			}
+			elseif(isset($definition['raccoursis']['inclures'][$champ]['function']) and
+					$inclure_fonction = $definition['raccoursis']['inclures'][$champ]['function']) {
+				if (isset($inclure_fonction['fichier']) and
+						include_spip($inclure_fonction['fichier']) and
+						$fonction_nom = $inclure_fonction['nom']) {
+					$arguments = isset($inclure_fonction['arguments']) ? $inclure_fonction['arguments'] : array();
+					$function = call_user_func_array($fonction_nom, $arguments);
+					$message = str_replace('*I*' . $champ . '*I*', $function, $message);
+				}
 			}
 		}
 	}
