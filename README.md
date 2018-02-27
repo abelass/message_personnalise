@@ -1,13 +1,13 @@
-# message_personnalise
+# Message Personnalisé
 Permet de personaliser des messages depuis l'espace prive
 
-Rendre les messages personnalisables
-======================================
+## Rendre les messages personnalisables
 
-Définir un message
-------------------
 
-### Tableau de définition.
+###Définir un message
+
+
+#### Tableau de définition.
 
 les définions se trouvent dans un fichier à l'interieur d'un dossier "message_personnalise", le nom du fichier est égale au type de message.
 
@@ -73,7 +73,7 @@ $definition = array(
 ```
 
 
-### Squelettes
+#### Squelettes
 
 Le plugin propose une balise `#MESSAGE_PERSONNALISE{type_message,texte_original,objets_cibles,declencheurs} `
 
@@ -87,11 +87,3 @@ Placé à l'intérieur d'un boucle elle récupère l'objet et l'identifiant de l
 				#ARRAY{statut, #STATUT, qui, client}}
 </BOUCLE_reservation>
 ```
-
-
-
-
-
-
-
-
