@@ -4,7 +4,7 @@ Permet de personaliser des messages depuis l'espace prive
 ## Rendre les messages personnalisables
 
 
-###Définir un message
+### Définir un message
 
 
 #### Tableau de définition.
