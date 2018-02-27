@@ -11,7 +11,7 @@
 
 	#SET{inclures,#ARRAY}
 	<BOUCLE_inclure(DATA){source tableau, #GET{inclures_disponibles}}>
-		#SET{inclures,#GET{inclures}|push{#VAL{<span>*I*}|concat{#CLE}|concat{*I* </span> <span>}|concat{ (#TITRE)</span>}}}
+		#SET{inclures,#GET{inclures}|push{#VAL{<span>*I*}|concat{#CLE}|concat{*I* </span> <span>}|concat{ (#TITRE)</span><br>}}}
 	</BOUCLE_inclure>
 		#SET{inclures, #VAL{<br>}|concat{#GET{inclures}|implode{''}}}
 		#SET{champ_texte_explication_inclures,<br><br>#VAL{mp_message:champ_texte_explication_inclures}|_T{#ARRAY{inclures,#GET{inclures}}}}
