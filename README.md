@@ -18,9 +18,9 @@ donc pour le type de message "example"
 
 message_personnalise/example.php
 
-
-messages_personnalises_example_dist($args) {
 ``` php
+messages_personnalises_example_dist($args) {
+
 $definition = array(
 	'nom' = _T('reservation:titre_reservation'), 	// Obligatoire!
 	'objet' = 'reservation',						// Nécessaire por les racoursis et si l'objet ne sort pas du contexte.
