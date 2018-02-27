@@ -9,16 +9,12 @@
 	schema="1.0.0"
 >
 
-
 	<nom>Message personnalisé</nom>
 	<!-- Permet de personnaliser certain message  système -->
 
-	<!-- cette balise peut être présente plusieurs fois s'il y a plusieurs auteurs -->
 	<auteur>Rainer Müller</auteur>
 
 	<licence>GNU/GPL</licence>
-
-
 
 	<necessite nom="saisies" compatibilite="[2.4.0;]" />
 
