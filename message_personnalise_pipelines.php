@@ -140,3 +140,5 @@ function message_personnalise_recuperer_fond($flux) {
 
 	return $flux;
 }
+
+//function message_personnalise_notification()

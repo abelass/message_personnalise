@@ -83,14 +83,14 @@ function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $ret
 			$nom = $explode[0];
 
 			// Charger les valeurs spécifiques.
-			if ($message = mp_charger_definition($nom, $valeurs)) {
+			if ($definition = mp_charger_definition($nom)) {
 
 				// Les message par nom.
-				$valeurs['_types'][$nom] = $message['label'];
+				$valeurs['_types'][$nom] = $definition['label'];
 
 
 				// Le reste  par nom de message.
-				foreach ($message as $champ => $valeur) {
+				foreach ($definition as $champ => $valeur) {
 
 					// Le cas normal
 					if (!in_array($champ, array('declencheurs', 'raccoursis'))) {
@@ -158,13 +158,23 @@ function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $ret
  * @return array Tableau des erreurs
  */
 function formulaires_editer_mp_message_verifier_dist($id_mp_message = 'new', $retour = '', $associer_objet = '', $lier_trad = 0, $config_fonc = '', $row = array(), $hidden = '') {
+	include_spip('inc/message_personnalise');
+	$definition = mp_charger_definition(_request('type'));
 	$erreurs = array();
 
-	$erreurs = formulaires_editer_objet_verifier('mp_message', $id_mp_message, array(
+	$obligatoires = array(
 		'titre',
-		'nom',
+		'type',
 		'texte'
-	));
+	);
+
+	foreach($definition['declencheurs'] AS $declencheur => $data) {
+		if (isset($data['obligatoire']) AND $data['obligatoire'] == 'oui') {
+			$obligatoires[] = 'declencheur_' . $declencheur;
+		}
+	}
+
+	$erreurs = formulaires_editer_objet_verifier('mp_message', $id_mp_message, $obligatoires);
 
 	if (count($erreurs) == 0) {
 		foreach (array('declencheur_statut', 'declencheur_qui') AS $champ) {
