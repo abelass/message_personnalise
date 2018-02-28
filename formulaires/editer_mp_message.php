@@ -88,6 +88,7 @@ function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $ret
 				// Les message par nom.
 				$valeurs['_types'][$nom] = $message['label'];
 
+
 				// Le reste  par nom de message.
 				foreach ($message as $champ => $valeur) {
 
