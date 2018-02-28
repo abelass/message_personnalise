@@ -80,7 +80,7 @@ function chercher_message_personnalise($message, $nom, $args = array(), $traduir
 	$from = 'spip_mp_messages AS m LEFT JOIN spip_mp_messages_liens as ml USING (id_mp_message)';
 
 	if ($nom) {
-		$where[] = 'm.nom LIKE' . sql_quote($nom);
+		$where[] = 'm.type LIKE' . sql_quote($nom);
 	}
 
 	if (is_array($declencheurs)) {

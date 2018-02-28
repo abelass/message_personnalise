@@ -22,9 +22,9 @@
 </BOUCLE_test>
 
 
-[(#SAISIE{selection, nom, obligatoire=oui,
+[(#SAISIE{selection, type, obligatoire=oui,
 	label=<:mp_message:champ_nom_label:>,
-	data=#ENV{_noms}})]
+	data=#ENV{_types}})]
 
 <BOUCLE_declencheurs(DATA){source tableau, #GET{definitions}}>
 	[(#SAISIE{selection_multiple, #CLE,
