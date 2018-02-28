@@ -17,8 +17,8 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  *
  * @param string $message
  *        	Le message original.
- * @param integer $type
- *        	Le type de message.
+ * @param integer $nom
+ *        	Le nom de message.
  * @param array $args
  *        	Les variables du contexte.
  * @param boolean $traduire
@@ -26,21 +26,22 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  *
  * @return string
  */
-function chercher_message_personnalise($message, $type, $args = array(), $traduire = TRUE) {
+function chercher_message_personnalise($message, $nom, $args = array(), $traduire = TRUE) {
 	$_id_objet = '';
 	$data_objet = array();
 	foreach ($args as $champ => $valeur) {
 		$$champ = $valeur;
 	}
-	$args['type'] = $type;
+	$args['nom'] = $nom;
+
 	// Charger les définitions spécifiques.
 	$definition = mp_charger_definition(
-			$type,
+			$nom,
 			array_merge(
 				$args,
 				array(
 					'objet' => $objet,
-					'type' => $type,
+					'nom' => $nom,
 					'qui' => $qui,
 					'id_objet' => $id_objet,
 					'message' => $message,
@@ -51,7 +52,7 @@ function chercher_message_personnalise($message, $type, $args = array(), $tradui
 		);
 
 	// Les infos de l'objet.
-	$requete = isset($definition['requete']) ? $definition['requete'] : array();
+	$requete = isset($definition['raccoursis']['requete']) ? $definition['raccoursis']['requete'] : array();
 	if ($objet && $id_objet) {
 		$_id_objet = id_table_objet($objet);
 		$args[$_id_objet] = $id_objet;
@@ -78,8 +79,8 @@ function chercher_message_personnalise($message, $type, $args = array(), $tradui
 	);
 	$from = 'spip_mp_messages AS m LEFT JOIN spip_mp_messages_liens as ml USING (id_mp_message)';
 
-	if ($type) {
-		$where[] = 'm.type LIKE' . sql_quote($type);
+	if ($nom) {
+		$where[] = 'm.nom LIKE' . sql_quote($nom);
 	}
 
 	if (is_array($declencheurs)) {
@@ -148,15 +149,15 @@ function chercher_message_personnalise($message, $type, $args = array(), $tradui
 }
 
 /**
- * Cherche un un set de configuration pour le type de message.
+ * Cherche un un set de configuration pour le nom de message.
  *
- * @param integer $type
+ * @param integer $nom
  * @param array $args
  *
  * @return array
  */
-function mp_charger_definition($type, $args = array()) {
-	if ($definition = charger_fonction($type, "messages_personnalises", true)) {
+function mp_charger_definition($nom, $args = array()) {
+	if ($definition = charger_fonction($nom, "messages_personnalises", true)) {
 		$definition = pipeline('mp_charger_definition', array(
 			'args' => $args,
 			'data' => $definition($args)
@@ -176,7 +177,7 @@ function mp_charger_definition($type, $args = array()) {
  * @param array $data_objet
  *        	Toutes les valeurs de la requete.
  * @param array $definitions_messages
- *        	Les définitions du type de message
+ *        	Les définitions du nom de message
  *
  * @return integer
  */

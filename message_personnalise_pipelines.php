@@ -31,7 +31,7 @@ function message_personnalise_affiche_milieu($flux) {
 			lire_config('message_personnalise/objets', array ()))) {
 		$texte .= recuperer_fond('prive/objets/editer/liens', array(
 			'table_source' => 'mp_messages',
-			'objet' => $e['type'],
+			'objet' => $e['nom'],
 			'id_objet' => $flux['args'][$e['id_table_objet']]
 		));
 }
@@ -80,51 +80,62 @@ function message_personnalise_recuperer_fond($flux) {
 	$fond = $flux['args']['fond'];
 	$contexte = $flux['data']['contexte'];
 
-	$messages_personalisables = find_all_in_path("messages_personnalises/", '^');
+	if (!isset($GLOBALS['mp_fichiers_fond'])) {
+		include_spip('inc/message_personnalise');
 
-	if (is_array($messages_personalisables)) {
-
-		foreach (array_keys($messages_personalisables) as $fichier) {
-			$explode = explode('.', $fichier);
-			$type = $explode[0];
-
-			// Charger les définitions spécifiques.
-			if (include_spip('inc/message_personnalise') AND
-					$definition = mp_charger_definition($type, $valeurs) AND
-					isset($definition['fond']) AND
-					$definition['fond'] == $fond) {
-
-				// Préparer les variables pour la requête de recherche de u message personnalisé.
-				if (!isset($contexte['objet']) AND isset($definition['objet'])) {
-					$contexte['objet'] = $definition['objet'];
+		// Compile les messages
+		$messages_personalisables = find_all_in_path("messages_personnalises/", '/fond_');
+		if (is_array($messages_personalisables)) {
+			$fichiers_fond = array();
+			foreach (array_keys($messages_personalisables) as $fichier) {
+				$explode = explode('.', $fichier);
+				$nom = $explode[0];
+				if ($definition = mp_charger_definition($nom, $valeurs) AND
+						isset($definition['fond'])) {
+							$definition['nom'] = $nom;
+							$fichiers_fond[$definition['fond']] = $definition;
 				}
+			}
+		}
+		$GLOBALS['mp_fichiers_fond'] = $fichiers_fond;
+	}
+	else {
+		$fichiers_fond = $GLOBALS['mp_fichiers_fond'];
+	}
 
-				if (isset($contexte['objet']) AND !isset($contexte['id_objet'])) {
-					if (isset($definition['_id_objet'])) {
-						$contexte['id_objet'] = $contexte[$definition['_id_objet']];
-					}
-					else {
-						$_id_objet = id_table_objet($contexte['objet']);
-						$contexte['id_objet'] = isset($contexte[$_id_objet]) ? $contexte[$_id_objet] : '';
-					}
-				}
+	// Charger les définitions spécifiques.
+	if (isset($fichiers_fond[$fond]) AND
+			$definition = $fichiers_fond[$fond]) {
+			$nom = $definition['nom'];
 
-				if (isset($contexte['statut'])) {
-					$contexte['declencheurs']['statut'] = $contexte['statut'];
-				}
-				if (isset($contexte['qui'])) {
-					$contexte['declencheurs']['qui'] = $contexte['qui'];
-				}
+		// Préparer les variables pour la requête de recherche de u message personnalisé.
+		if (!isset($contexte['objet']) AND isset($definition['objet'])) {
+			$contexte['objet'] = $definition['objet'];
+		}
 
-				$flux['data']['texte'] = chercher_message_personnalise(
-						$flux['data']['texte'],
-						$type,
-						$contexte,
-						FALSE
-					);
+		if (isset($contexte['objet']) AND !isset($contexte['id_objet'])) {
+			if (isset($definition['_id_objet'])) {
+				$contexte['id_objet'] = $contexte[$definition['_id_objet']];
+			}
+			else {
+				$_id_objet = id_table_objet($contexte['objet']);
+				$contexte['id_objet'] = isset($contexte[$_id_objet]) ? $contexte[$_id_objet] : '';
 			}
 		}
 
+		if (isset($contexte['statut'])) {
+			$contexte['declencheurs']['statut'] = $contexte['statut'];
+		}
+		if (isset($contexte['qui'])) {
+			$contexte['declencheurs']['qui'] = $contexte['qui'];
+		}
+
+		$flux['data']['texte'] = chercher_message_personnalise(
+				$flux['data']['texte'],
+				$nom,
+				$contexte,
+				FALSE
+			);
 	}
 
 	return $flux;

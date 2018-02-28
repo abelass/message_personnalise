@@ -21,7 +21,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  * @return object
  */
 function balise_MESSAGE_PERSONNALISE_dist($p) {
-	$type = interprete_argument_balise(1, $p);
+	$nom = interprete_argument_balise(1, $p);
 	$message = interprete_argument_balise(2, $p);
 	$objets_cibles = interprete_argument_balise(3, $p);
 	$declencheurs = interprete_argument_balise(4, $p);
@@ -29,7 +29,7 @@ function balise_MESSAGE_PERSONNALISE_dist($p) {
 	$id_objet = champ_sql($_id_objet, $p);
 	$objet = $p->boucles[$p->id_boucle]->id_table;
 
-	$p->code = "calculer_balise_MESSAGE_PERSONNALISE('$objet', $id_objet, $type, $message, $objets_cibles, $declencheurs)";
+	$p->code = "calculer_balise_MESSAGE_PERSONNALISE('$objet', $id_objet, $nom, $message, $objets_cibles, $declencheurs)";
 
 	return $p;
 }
@@ -41,7 +41,7 @@ function balise_MESSAGE_PERSONNALISE_dist($p) {
  *        	Objet du context.
  * @param integer $id_objet
  *        	identifiant de l'objet du context.
- * @param string $type
+ * @param string $nom
  *        	Type de message.
  * @param string $message
  *        	Les message original.
@@ -50,9 +50,9 @@ function balise_MESSAGE_PERSONNALISE_dist($p) {
  * @param array $declencheurs
  * @return string
  */
-function calculer_balise_MESSAGE_PERSONNALISE($objet, $id_objet, $type, $message, $objets_cibles, $declencheurs) {
+function calculer_balise_MESSAGE_PERSONNALISE($objet, $id_objet, $nom, $message, $objets_cibles, $declencheurs) {
 	include_spip('inc/message_personnalise');
-	return chercher_message_personnalise($message, $type, array(
+	return chercher_message_personnalise($message, $nom, array(
 			'objet' => $objet,
 			'id_objet' => $id_objet,
 			'objets_cibles' => $objets_cibles,
