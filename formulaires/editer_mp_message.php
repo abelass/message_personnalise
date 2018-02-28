@@ -80,20 +80,20 @@ function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $ret
 	if (is_array($messages_personalisables)) {
 		foreach (array_keys($messages_personalisables) as $fichier) {
 			$explode = explode('.', $fichier);
-			$type = $explode[0];
+			$nom = $explode[0];
 
 			// Charger les valeurs spécifiques.
-			if ($message = mp_charger_definition($type, $valeurs)) {
+			if ($message = mp_charger_definition($nom, $valeurs)) {
 
-				// Les types de messages.
-				$valeurs['_types'][$type] = $message['nom'];
+				// Les noms de messages.
+				$valeurs['_noms'][$nom] = $message['nom'];
 
-				// Le reste  par type de message.
+				// Le reste  par nom de message.
 				foreach ($message as $champ => $valeur) {
 
 					// Le cas normal
 					if (!in_array($champ, array('declencheurs', 'raccoursis'))) {
-						$valeurs[$champ][$type] = $valeur;
+						$valeurs[$champ][$nom] = $valeur;
 					}
 					// Les raccoursis
 					elseif($champ == 'raccoursis') {
@@ -109,19 +109,19 @@ function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $ret
 
 						foreach ($champs_disponibles AS $champ_disponible) {
 							if (!in_array($champ_disponible, $exclus)) {
-								$valeurs['champs_disponibles'][$type][] = $champ_disponible;
+								$valeurs['champs_disponibles'][$nom][] = $champ_disponible;
 							}
 						}
 
 						// Les inclures
 						if (isset($valeur['inclures'])) {
-							$valeurs['inclures'][$type] = $valeur['inclures'];
+							$valeurs['inclures'][$nom] = $valeur['inclures'];
 						}
 					}
 					// Les déclencheurs.
 					elseif (is_array($valeur)) {
 						foreach ($valeur as $declencheur => $data) {
-							$valeurs['_definitions'][$type]['declencheur_' . $declencheur] = $data;
+							$valeurs['_definitions'][$nom]['declencheur_' . $declencheur] = $data;
 						}
 					}
 				}
@@ -161,7 +161,7 @@ function formulaires_editer_mp_message_verifier_dist($id_mp_message = 'new', $re
 
 	$erreurs = formulaires_editer_objet_verifier('mp_message', $id_mp_message, array(
 		'titre',
-		'type',
+		'nom',
 		'texte'
 	));
 
