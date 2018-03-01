@@ -168,13 +168,22 @@ function formulaires_editer_mp_message_verifier_dist($id_mp_message = 'new', $re
 		'texte'
 	);
 
+	$erreurs = formulaires_editer_objet_verifier('mp_message', $id_mp_message, $obligatoires);
+
+	// Les éventiels déclencheurs obligatoire
 	foreach($definition['declencheurs'] AS $declencheur => $data) {
-		if (isset($data['obligatoire']) AND $data['obligatoire'] == 'oui') {
-			$obligatoires[] = 'declencheur_' . $declencheur;
+		if (isset($data['obligatoire']) AND
+				$data['obligatoire'] == 'oui' AND
+				(!_request('declencheur_' . $declencheur) OR
+					(
+						is_array(_request('declencheur_' . $declencheur)) AND
+						count(_request('declencheur_' . $declencheur)) == 0
+					)
+				)
+			) {
+				$erreurs['declencheur_' . $declencheur] = _T("info_obligatoire");
 		}
 	}
-
-	$erreurs = formulaires_editer_objet_verifier('mp_message', $id_mp_message, $obligatoires);
 
 	if (count($erreurs) == 0) {
 		foreach (array('declencheur_statut', 'declencheur_qui') AS $champ) {
