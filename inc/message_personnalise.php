@@ -13,7 +13,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 }
 
 /**
- * Regarde our un éventuel message personnalisé, sino retourne l'original.
+ * Regarde our un éventuel message personnalisé, sinon retourne l'original.
  *
  * @param string $message
  *        	Le message original.
@@ -51,27 +51,7 @@ function chercher_message_personnalise($message, $nom, $args = array(), $traduir
 			)
 		);
 
-	// Les infos de l'objet.
-	$requete = isset($definition['raccoursis']['requete']) ? $definition['raccoursis']['requete'] : array();
-	if ($objet && $id_objet) {
-		$_id_objet = id_table_objet($objet);
-		$args[$_id_objet] = $id_objet;
-		$champs = isset($requete['champs']) ? $requete['champs'] : '*';
-		$from = isset($requete['from']) ? $requete['from'] : table_objet_sql($objet);
-		if (isset($requete['where'])) {
-			$where = $requete['where'];
-		}
-		else {
-			$where = id_table_objet($objet) . '=' . $id_objet;
-		}
 
-		$data_objet = sql_fetsel($champs, $from, $where);
-	}
-
-	$data_objet = pipeline('mp_data_objet', array(
-		'args' => $args,
-		'data' => $data_objet
-	));
 
 	// Générer la requête.
 	$where = array(
@@ -80,12 +60,12 @@ function chercher_message_personnalise($message, $nom, $args = array(), $traduir
 	$from = 'spip_mp_messages AS m LEFT JOIN spip_mp_messages_liens as ml USING (id_mp_message)';
 
 	if ($nom) {
-		$where[] = 'm.type LIKE' . sql_quote($nom);
+		$where[] = 'm.type LIKE ' . sql_quote($nom);
 	}
 
 	if (is_array($declencheurs)) {
 		foreach ($declencheurs as $declencheur => $valeur) {
-			$where[] = 'declencheur_' . $declencheur . ' LIKE ' . sql_quote('%"' . $valeur . '"%');
+			$where[] = 'm.declencheur_' . $declencheur . ' LIKE ' . sql_quote('%"' . trim($valeur) . '"%');
 		}
 	}
 
@@ -104,10 +84,37 @@ function chercher_message_personnalise($message, $nom, $args = array(), $traduir
 		$texte = sql_getfetsel('texte', $from, $where);
 	}
 
+
 	// On prend le message personnalisé
 	if ($texte) {
-		// On remplace les raccoursis
-		preg_match_all('#@(.+?)@#s', $texte, $match);
+
+		// Les infos de l'objet.
+		$requete = isset($definition['raccoursis']['requete']) ? $definition['raccoursis']['requete'] : array();
+		if ($objet && $id_objet) {
+			$_id_objet = id_table_objet($objet);
+			$args[$_id_objet] = $id_objet;
+			$champs = isset($requete['champs']) ? $requete['champs'] : '*';
+			$from = isset($requete['from']) ? $requete['from'] : table_objet_sql($objet);
+			if (isset($requete['where'])) {
+				$where = $requete['where'];
+			}
+			else {
+				$where = id_table_objet($objet) . '=' . $id_objet;
+			}
+
+			$data_objet = sql_fetsel($champs, $from, $where);
+		}
+
+		$data_objet = pipeline('mp_data_objet', array(
+			'args' => $args,
+			'data' => $data_objet
+		));
+
+		// Les filtres de bases.
+		$message = typo(propre($texte));
+
+		// On remplace les champs
+		preg_match_all('#@(.+?)@#s', $message, $match);
 		$valeurs = array();
 		foreach ($match[1] as $champ) {
 
@@ -115,7 +122,7 @@ function chercher_message_personnalise($message, $nom, $args = array(), $traduir
 			$valeurs[$champ] = mp_chercher_valeur_champ($champ, $valeur, $data_objet, $definition);
 		}
 
-		$message = propre(_L($texte, $valeurs));
+		$message = _L($texte, $valeurs);
 
 		// in remplace les inclures
 		preg_match_all('#\*I\*(.+?)\*I\*#s', $texte, $match);
@@ -124,9 +131,8 @@ function chercher_message_personnalise($message, $nom, $args = array(), $traduir
 			if (isset($definition['raccoursis']['inclures'][$champ]['fond']) and
 					$chemin = $definition['raccoursis']['inclures'][$champ]['fond'] and
 					find_in_path($chemin . '.html')) {
-					$fond = recuperer_fond($chemin, $args);
-					$message = str_replace('*I*' . $champ . '*I*', $fond, $message);
-
+				$fond = recuperer_fond($chemin, $args);
+				$message = str_replace('*I*' . $champ . '*I*', $fond, $message);
 			}
 			elseif(isset($definition['raccoursis']['inclures'][$champ]['function']) and
 					$inclure_fonction = $definition['raccoursis']['inclures'][$champ]['function']) {

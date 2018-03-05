@@ -92,8 +92,8 @@ function message_personnalise_recuperer_fond($flux) {
 				$nom = $explode[0];
 				if ($definition = mp_charger_definition($nom, $valeurs) AND
 						isset($definition['fond'])) {
-							$definition['nom'] = $nom;
-							$fichiers_fond[$definition['fond']] = $definition;
+						$definition['nom'] = $nom;
+						$fichiers_fond[$definition['fond']] = $definition;
 				}
 			}
 		}
@@ -106,7 +106,7 @@ function message_personnalise_recuperer_fond($flux) {
 	// Charger les définitions spécifiques.
 	if (isset($fichiers_fond[$fond]) AND
 			$definition = $fichiers_fond[$fond]) {
-			$nom = $definition['nom'];
+		$nom = $definition['nom'];
 
 		// Préparer les variables pour la requête de recherche de u message personnalisé.
 		if (!isset($contexte['objet']) AND isset($definition['objet'])) {
@@ -137,6 +137,44 @@ function message_personnalise_recuperer_fond($flux) {
 				FALSE
 			);
 	}
+
+	return $flux;
+}
+
+/**
+ * Ajouter les configurations dans celle de réservation événements.
+ *
+ * @pipeline reservation_evenement_objets_configuration
+ *
+ * @param array $flux
+ *        	Données du pipeline
+ * @return array Données du pipeline
+ */
+function message_personnalise_reservation_evenement_objets_configuration($flux) {
+
+	$flux['data']['message_personnalise'] = array(
+		'label' => _T('message_personnalise:message_personnalise_titre'),
+	);
+
+	return $flux;
+}
+
+/**
+ * Ajouter une entré au menu de navigation de résrvation événement.
+ *
+ * @pipeline reservation_evenement_objets_navigation
+ *
+ * @param array $flux
+ *        	Données du pipeline
+ * @return array Données du pipeline
+ */
+
+function message_personnalise_reservation_evenement_objets_navigation($flux) {
+
+	$flux['data']['mp_messages'] = array(
+		'label' => _T('message_personnalise:message_personnalise_titre'),
+		'objets' => array('mp_messages', 'mp_message'),
+	);
 
 	return $flux;
 }
