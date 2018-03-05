@@ -22,7 +22,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  * - créer la structure SQL,
  * - insérer du pre-contenu,
  * - installer des valeurs de configuration,
- * - mettre à jour la structure SQL 
+ * - mettre à jour la structure SQL
  *
  * @param string $nom_meta_base_version
  *     Nom de la meta informant de la version du schéma de données du plugin installé dans SPIP
@@ -34,7 +34,7 @@ function message_personnalise_upgrade($nom_meta_base_version, $version_cible) {
 	$maj = array();
 	# quelques exemples
 	# (que vous pouvez supprimer !)
-	# 
+	#
 	# $maj['create'] = array(array('creer_base'));
 	#
 	# include_spip('inc/config')
@@ -52,6 +52,7 @@ function message_personnalise_upgrade($nom_meta_base_version, $version_cible) {
 	# ...
 
 	$maj['create'] = array(array('maj_tables', array('spip_mp_messages', 'spip_mp_messages_liens')));
+	$maj['1.0.1'] = array(array('maj_tables', array('spip_mp_messages')));
 
 	include_spip('base/upgrade');
 	maj_plugin($nom_meta_base_version, $version_cible, $maj);
@@ -60,11 +61,11 @@ function message_personnalise_upgrade($nom_meta_base_version, $version_cible) {
 
 /**
  * Fonction de désinstallation du plugin Message personnalisé.
- * 
+ *
  * Vous devez :
  *
  * - nettoyer toutes les données ajoutées par le plugin et son utilisation
- * - supprimer les tables et les champs créés par le plugin. 
+ * - supprimer les tables et les champs créés par le plugin.
  *
  * @param string $nom_meta_base_version
  *     Nom de la meta informant de la version du schéma de données du plugin installé dans SPIP

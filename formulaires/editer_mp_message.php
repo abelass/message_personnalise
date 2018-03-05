@@ -169,24 +169,28 @@ function formulaires_editer_mp_message_verifier_dist($id_mp_message = 'new', $re
 	);
 
 	$erreurs = formulaires_editer_objet_verifier('mp_message', $id_mp_message, $obligatoires);
+	$declencheurs = $definition['declencheurs'];
 
 	// Les éventiels déclencheurs obligatoire
-	foreach($definition['declencheurs'] AS $declencheur => $data) {
+	foreach($declencheurs AS $declencheur => $data) {
+		$champ = 'declencheur_' . $declencheur;
 		if (isset($data['obligatoire']) AND
 				$data['obligatoire'] == 'oui' AND
-				(!_request('declencheur_' . $declencheur) OR
+				(!_request($champ) OR
 					(
-						is_array(_request('declencheur_' . $declencheur)) AND
-						count(_request('declencheur_' . $declencheur)) == 0
+						is_array(_request($champ)) AND
+						count(_request($champ)) == 0
 					)
 				)
 			) {
-				$erreurs['declencheur_' . $declencheur] = _T("info_obligatoire");
+				$erreurs[$champ] = _T("info_obligatoire");
 		}
 	}
 
+	// Si pas d'erreur en encode les déclencheurs en json pour l'enregistrement en bd.
 	if (count($erreurs) == 0) {
-		foreach (array('declencheur_statut', 'declencheur_qui') AS $champ) {
+		foreach (array_keys($declencheurs) AS $declencheur) {
+			$champ = 'declencheur_' . $declencheur;
 			if (_request($champ)) {
 				set_request($champ, json_encode(_request($champ)));
 			}

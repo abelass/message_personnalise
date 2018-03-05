@@ -13,6 +13,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 
 	// C
 	'champ_declencheur_qui_label' => 'Déclencheur qui',
+	'champ_declencheur_quoi_label' => 'Déclencheur quoi',
 	'champ_declencheur_statut_label' => 'Déclencheur statut',
 	'champ_descriptif_explication' => 'Usage interne',
 	'champ_descriptif_label' => 'Descriptif',
