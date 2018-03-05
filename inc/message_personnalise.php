@@ -24,7 +24,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  * @param boolean $traduire
  *        	Si message original est une chaîne de langue -> TRUE.
  *
- * @return mixed/string
+ * @return string
  */
 function chercher_message_personnalise($message, $nom, $args = array(), $traduire = TRUE) {
 	$_id_objet = '';

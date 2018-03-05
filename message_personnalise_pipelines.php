@@ -140,16 +140,3 @@ function message_personnalise_recuperer_fond($flux) {
 
 	return $flux;
 }
-
-function message_personnalise_notifications($flux) {
-	set_request('notification_quoi', $args['quoi']);
-}
-
-function message_personnalise_facteur_pre_envoi($facteur) {
-	if ($quoi = _request('notification_quoi')) {
-
-	}
-
-	return $facteur;
-}
-
