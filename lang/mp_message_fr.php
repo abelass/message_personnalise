@@ -27,29 +27,29 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'confirmer_supprimer_mp_message' => 'Confirmez-vous la suppression de cet message ?',
 
 	// I
-	'icone_creer_mp_message' => 'Créer un message',
-	'icone_modifier_mp_message' => 'Modifier ce message',
-	'info_1_mp_message' => 'Un message',
-	'info_aucun_mp_message' => 'Aucun message',
-	'info_mp_messages_auteur' => 'Les messages de cet auteur',
-	'info_nb_mp_messages' => '@nb@ messages',
+	'icone_creer_mp_message' => 'Créer un message personnalisé',
+	'icone_modifier_mp_message' => 'Modifier ce message personnalisé',
+	'info_1_mp_message' => 'Un message personnalisé',
+	'info_aucun_mp_message' => 'Aucun message personnalisé',
+	'info_mp_messages_auteur' => 'Les messages personnalisés de cet auteur',
+	'info_nb_mp_messages' => '@nb@ messages personnalisés',
 
 	// R
-	'retirer_lien_mp_message' => 'Retirer ce message',
-	'retirer_tous_liens_mp_messages' => 'Retirer tous les messages',
+	'retirer_lien_mp_message' => 'Retirer ce message personnalisé',
+	'retirer_tous_liens_mp_messages' => 'Retirer tous les messages personnalisé',
 
 	// S
-	'supprimer_mp_message' => 'Supprimer cet message',
+	'supprimer_mp_message' => 'Supprimer cet message personnalisé',
 
 	// T
-	'texte_ajouter_mp_message' => 'Ajouter un message',
-	'texte_changer_statut_mp_message' => 'Ce message est :',
-	'texte_creer_associer_mp_message' => 'Créer et associer un message',
-	'texte_definir_comme_traduction_mp_message' => 'Ce message est une traduction du message numéro :',
-	'titre_langue_mp_message' => 'Langue de ce message',
-	'titre_logo_mp_message' => 'Logo de ce message',
-	'titre_mp_message' => 'Message',
-	'titre_mp_messages' => 'Messages',
-	'titre_mp_messages_rubrique' => 'Messages de la rubrique',
-	'titre_objets_lies_mp_message' => 'Liés à ce message',
+	'texte_ajouter_mp_message' => 'Ajouter un message personnalisé',
+	'texte_changer_statut_mp_message' => 'Ce message personnalisé est :',
+	'texte_creer_associer_mp_message' => 'Créer et associer un message personnalisé',
+	'texte_definir_comme_traduction_mp_message' => 'Ce message personnalisé est une traduction du message personnalisé numéro :',
+	'titre_langue_mp_message' => 'Langue de ce message personnalisé',
+	'titre_logo_mp_message' => 'Logo de ce message personnalisé',
+	'titre_mp_message' => 'Message personnalisé',
+	'titre_mp_messages' => 'Messages personnalisés',
+	'titre_mp_messages_rubrique' => 'Messages personnalisés de la rubrique',
+	'titre_objets_lies_mp_message' => 'Liés à ce message personnalisé',
 );

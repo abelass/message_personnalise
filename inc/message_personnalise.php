@@ -125,10 +125,10 @@ function chercher_message_personnalise($message, $nom, $args = array(), $traduir
 			$valeurs[$champ] = mp_chercher_valeur_champ($champ, $valeur, $data_objet, $definition);
 		}
 
-		$message = _L($texte, $valeurs);
+		$message = _L($message, $valeurs);
 
 		// in remplace les inclures
-		preg_match_all('#\*I\*(.+?)\*I\*#s', $texte, $match);
+		preg_match_all('#\*I\*(.+?)\*I\*#s', $message, $match);
 
 		foreach ($match[1] as $champ) {
 			if (isset($definition['raccoursis']['inclures'][$champ]['fond']) and

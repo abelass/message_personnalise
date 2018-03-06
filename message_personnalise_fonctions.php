@@ -53,16 +53,19 @@ function balise_MESSAGE_PERSONNALISE_dist($p) {
  *
  * @return string
  */
-function calculer_balise_MESSAGE_PERSONNALISE($objet, $id_objet, $nom, $message, $objets_cibles, $declencheurs, $options) {
+function calculer_balise_MESSAGE_PERSONNALISE($objet, $id_objet, $nom, $message, $objets_cibles, $declencheurs, $options = array()) {
 	include_spip('inc/message_personnalise');
-	return chercher_message_personnalise($message, $nom, array_merge(
-			array(
-				'objet' => $objet,
-				'id_objet' => $id_objet,
-				'objets_cibles' => $objets_cibles,
-				'declencheurs' => $declencheurs,
-			),
-			$options
-		)
+
+	$args = array(
+		'objet' => $objet,
+		'id_objet' => $id_objet,
+		'objets_cibles' => $objets_cibles,
+		'declencheurs' => $declencheurs,
 	);
+
+	if (is_array($options)) {
+		$args = array_merge($args,$options);
+	}
+
+	return chercher_message_personnalise($message, $nom, $args);
 }
