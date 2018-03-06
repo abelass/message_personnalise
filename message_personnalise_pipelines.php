@@ -31,7 +31,7 @@ function message_personnalise_affiche_milieu($flux) {
 			lire_config('message_personnalise/objets', array ()))) {
 		$texte .= recuperer_fond('prive/objets/editer/liens', array(
 			'table_source' => 'mp_messages',
-			'objet' => $e['nom'],
+			'objet' => $e['type'],
 			'id_objet' => $flux['args'][$e['id_table_objet']]
 		));
 }
@@ -46,6 +46,7 @@ function message_personnalise_affiche_milieu($flux) {
 
 	return $flux;
 }
+
 
 /**
  * Optimiser la base de données

@@ -196,7 +196,7 @@ function formulaires_editer_mp_message_verifier_dist($id_mp_message = 'new', $re
 					is_array($valeur) AND
 					count($valeur) > 0
 					AND !empty($valeur[0])) {
-				set_request($champ, json_encode(_request($champ)));
+						set_request($champ, json_encode($valeur));
 			}
 			else {
 				set_request($champ, '');
