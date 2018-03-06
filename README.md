@@ -69,7 +69,7 @@ messages_personnalises_example_dist($args) {
 
 #### Squelettes
 
-Le plugin propose une balise `#MESSAGE_PERSONNALISE{type_message,texte_original,objets_cibles,declencheurs} `
+Le plugin propose une balise `#MESSAGE_PERSONNALISE{type_message,texte_original,objets_cibles,declencheurs, options} `
 
 Placé à l'intérieur d'un boucle elle récupère l'objet et l'identifiant de l'objet.
 
@@ -80,5 +80,6 @@ Placé à l'intérieur d'un boucle elle récupère l'objet et l'identifiant de l
 				reservation:merci_de_votre_reservation,
 				#ARRAY{article, 2},
 				#ARRAY{statut, #STATUT, qui, client}}
+				#ARRAY{option1,valeur1}
 </BOUCLE_reservation>
 ```
