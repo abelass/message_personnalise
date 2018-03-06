@@ -79,16 +79,15 @@ function chercher_message_personnalise($message, $nom, $args = array(), $traduir
 
 	// Si plusieurs objets cible on cherche le premier message disponible.
 	if (is_array($objets_cibles)) {
-		print_r($objets_cibles);
 		foreach ($objets_cibles as $objet_cible => $id_objet_cible) {
 			if($id_objet_cible) {
 				$where[] = '(ml.objet LIKE ' . sql_quote($objet_cible) .
 					' AND ml.id_objet =' . $id_objet_cible . ' OR
 					ml.id_mp_message IS NULL)';
 			}
-				if ($texte = sql_getfetsel('texte', $from, $where)) {
-					break;
-				}
+			if ($texte = sql_getfetsel('texte', $from, $where)) {
+				break;
+			}
 		}
 	}
 	// Sinon on prend un message non lié correspondnant
