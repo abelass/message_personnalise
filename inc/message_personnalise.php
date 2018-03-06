@@ -68,7 +68,12 @@ function chercher_message_personnalise($message, $nom, $args = array(), $traduir
 
 	if (is_array($declencheurs)) {
 		foreach ($declencheurs as $declencheur => $valeur) {
-			$where[] = 'm.declencheur_' . $declencheur . ' LIKE ' . sql_quote('%"' . trim($valeur) . '"%');
+			if($valeur) {
+				$where[] = '(
+											m.declencheur_' . $declencheur . ' LIKE ' . sql_quote('%"' . trim($valeur) . '"%') .
+											' OR m.declencheur_' . $declencheur . '=""
+										)';
+			}
 		}
 	}
 
@@ -83,8 +88,10 @@ function chercher_message_personnalise($message, $nom, $args = array(), $traduir
 	}
 	// Sinon on prend un message non lié correspondnant
 	else {
+		print_r($where);
 		$where[] = 'ml.id_mp_message IS NULL';
 		$texte = sql_getfetsel('texte', $from, $where);
+		print 'texte:'; print_r($texte);
 	}
 
 

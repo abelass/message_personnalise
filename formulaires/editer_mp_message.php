@@ -191,8 +191,15 @@ function formulaires_editer_mp_message_verifier_dist($id_mp_message = 'new', $re
 	if (count($erreurs) == 0) {
 		foreach (array_keys($declencheurs) AS $declencheur) {
 			$champ = 'declencheur_' . $declencheur;
-			if (_request($champ)) {
+			if (_request($champ) AND
+					$valeur = _request($champ) AND
+					is_array($valeur) AND
+					count($valeur) > 0
+					AND !empty($valeur[0])) {
 				set_request($champ, json_encode(_request($champ)));
+			}
+			else {
+				set_request($champ, '');
 			}
 		}
 	}
