@@ -27,11 +27,14 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  * @return string
  */
 function chercher_message_personnalise($message, $nom, $args = array(), $traduire = TRUE) {
+	$lang = $GLOBALS['spip_lang'];
 	$_id_objet = '';
 	$data_objet = array();
+
 	foreach ($args as $champ => $valeur) {
 		$$champ = $valeur;
 	}
+
 	$args['nom'] = $nom;
 
 	// Charger les définitions spécifiques.
@@ -51,13 +54,13 @@ function chercher_message_personnalise($message, $nom, $args = array(), $traduir
 			)
 		);
 
-
-
 	// Générer la requête.
-	$where = array(
-		'm.statut LIKE ' . sql_quote('publie')
-	);
 	$from = 'spip_mp_messages AS m LEFT JOIN spip_mp_messages_liens as ml USING (id_mp_message)';
+
+	$where = array(
+		'm.statut LIKE ' . sql_quote('publie'),
+		'lang LIKE ' .sql_quote($lang),
+	);
 
 	if ($nom) {
 		$where[] = 'm.type LIKE ' . sql_quote($nom);
