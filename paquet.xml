@@ -2,7 +2,7 @@
 	prefix="message_personnalise"
 	categorie="communication"
 	version="1.0.1"
-	etat="teste"
+	etat="test"
 	compatibilite="[3.0.0;3.2.*]"
 	logo="prive/themes/spip/images/message_personnalise-64.png"
 	documentation=""
