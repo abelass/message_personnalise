@@ -169,7 +169,7 @@ function formulaires_editer_mp_message_verifier_dist($id_mp_message = 'new', $re
 	);
 
 	$erreurs = formulaires_editer_objet_verifier('mp_message', $id_mp_message, $obligatoires);
-	$declencheurs = $definition['declencheurs'];
+	$declencheurs = isset($definition['declencheurs']) ? $definition['declencheurs'] : array();
 
 	// Les éventiels déclencheurs obligatoire
 	foreach($declencheurs AS $declencheur => $data) {
