@@ -16,11 +16,10 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'champ_declencheur_quoi_label' => 'Auslöser "was"',
 	'champ_declencheur_statut_label' => 'Auslöser "Status"',
 	'champ_descriptif_explication' => 'Interner Gebrauch',
-	'champ_descriptif_label' => 'Beschreibung',
 	'champ_texte_explication' => 'Personalisierte Nachricht.',
 	'champ_texte_explication_inclures' => 'Sie können die folgenden Einsätze @inclures@ benützen',
 	'champ_texte_explication_raccoursis' => 'Sie können die folgenden Abkürzungen @champs@ benützen',
-	'champ_type_label' => 'Typ',
+	'champ_type_label' => 'Typ:',
 	'confirmer_supprimer_mp_message' => 'Bestätigen Sie das Löschen dieser Nachricht?',
 
 	// I

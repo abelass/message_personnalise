@@ -8,12 +8,12 @@
 		<div class="editer-groupe">
 
 			[(#SAISIE{input, titre, obligatoire=oui,
-				label=<:mp_message:champ_titre_label:>})]
+				label=<:ecrire:info_titre:>})]
 
 			<INCLURE{fond=formulaires/inc-editer_mp_message_champs_specifiques,env,ajax=champs_specifiques} />
 
 			[(#SAISIE{textarea, descriptif,
-				label=<:mp_message:champ_descriptif_label:>,
+				label=<:ecrire:info_descriptif:>,
 				explication=<:mp_message:champ_descriptif_explication:>, rows=4 })]
 
 		</div>

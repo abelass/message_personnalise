@@ -16,11 +16,10 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'champ_declencheur_quoi_label' => 'Déclencheur quoi',
 	'champ_declencheur_statut_label' => 'Déclencheur statut',
 	'champ_descriptif_explication' => 'Usage interne',
-	'champ_descriptif_label' => 'Descriptif',
 	'champ_texte_explication' => 'Message personnalisé.',
 	'champ_texte_explication_inclures' => 'Vous pouvez utiliser les inclures suivant @inclures@',
 	'champ_texte_explication_raccoursis' => 'Vous pouvez utiliser les raccoursis @champs@',
-	'champ_type_label' => 'Type',
+	'champ_type_label' => 'Type :',
 	'confirmer_supprimer_mp_message' => 'Confirmez-vous la suppression de cet message ?',
 
 	// I
