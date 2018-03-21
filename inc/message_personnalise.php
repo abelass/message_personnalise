@@ -95,7 +95,6 @@ function chercher_message_personnalise($message, $nom, $args = array(), $traduir
 
 		$where[] = 'ml.id_mp_message IS NULL';
 		$texte = sql_getfetsel('texte', $from, $where);
-		print 'texte:'; print_r($texte);
 	}
 
 	// On prend le message personnalisé

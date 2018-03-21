@@ -13,7 +13,6 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 }
 
 
-
 /**
  * Crée la balise MESSAGE_PERSONNALISE
  *
@@ -56,6 +55,8 @@ function balise_MESSAGE_PERSONNALISE_dist($p) {
 function calculer_balise_MESSAGE_PERSONNALISE($objet, $id_objet, $nom, $message, $objets_cibles, $declencheurs, $options = array()) {
 	include_spip('inc/message_personnalise');
 
+	$traduction = isset($options['traduction']) ? $options['traduction'] : '';
+
 	$args = array(
 		'objet' => $objet,
 		'id_objet' => $id_objet,
@@ -67,5 +68,5 @@ function calculer_balise_MESSAGE_PERSONNALISE($objet, $id_objet, $nom, $message,
 		$args = array_merge($args,$options);
 	}
 
-	return chercher_message_personnalise($message, $nom, $args);
+	return chercher_message_personnalise($message, $nom, $args, $traduction);
 }
