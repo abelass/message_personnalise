@@ -36,7 +36,7 @@ $GLOBALS[$GLOBALS['idx_lang']] = array(
 	'retirer_tous_liens_mp_messages' => 'Retirer tous les messages personnalisé',
 
 	// S
-	'supprimer_mp_message' => 'Supprimer cet message personnalisé',
+	'supprimer_mp_message' => 'Supprimer ce message personnalisé',
 
 	// T
 	'texte_ajouter_mp_message' => 'Ajouter un message personnalisé',
