@@ -47,7 +47,6 @@ function message_personnalise_affiche_milieu($flux) {
 	return $flux;
 }
 
-
 /**
  * Optimiser la base de données
  *
@@ -173,7 +172,6 @@ function message_personnalise_reservation_evenement_objets_configuration($flux) 
  *        	Données du pipeline
  * @return array Données du pipeline
  */
-
 function message_personnalise_reservation_evenement_objets_navigation($flux) {
 
 	$flux['data']['mp_messages'] = array(
@@ -182,4 +180,27 @@ function message_personnalise_reservation_evenement_objets_navigation($flux) {
 	);
 
 	return $flux;
+}
+
+function message_personnalise_taches_generales_cron($taches){
+
+	// Cherche les définitions des messages de type fond.
+	$messages_cron = find_all_in_path("messages_personnalises/", '/cron_');
+
+	if (is_array($messages_cron)) {
+		$fichiers_cron = array();
+		foreach (array_keys($messages_cron) as $fichier) {
+			$explode = explode('.', $fichier);
+			$nom = $explode[0];
+			if ($definition = mp_charger_definition($nom) AND
+					isset($definition['fond'])) {
+						$definition['nom'] = $nom;
+						$fichiers_cron[$definition['fond']] = $definition;
+						$taches[$nom] = isset($definition['cron']) ? $definition['cron'] : 24*3600;
+					}
+		}
+		$GLOBALS['mp_fichiers_cron'] = $fichiers_cron;
+	}
+
+	return $taches;
 }
