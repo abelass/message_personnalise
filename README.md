@@ -1,17 +1,35 @@
 # Message Personnalisé
-Permet de personaliser des messages depuis l'espace prive
+Permet de personaliser des messages depuis l'espace prive.
+
+
+## Créer un message personnalisable
+Depuis l'espace admin vous pouvez défini vos messagtes peronnali
+
+## Ajouter un message personalisable
+dans la configuration, définissez les objets auxquelles un messages put être attaché.
 
 ## Rendre les messages personnalisables
+Il est possible d'ajouter des types de messages depuis votre squelettes ou un plugin,
+en suivant les instructions ci-dessous.
 
 
-### Définir un message
+### Définir un message personnalisables
+#### Types de messages
+Ils existent 2 type de message:
+- Des message qui qui remplacent le contenu d'un un/e inclure/noisette avec le texte d'un
+	message personnalisé. Utilise la pipeline `recuperer_fond`.
+- Si le texte à modifier n'est pas modifiable en remplaçant un/e inclure/noisette entier,
+	on peut utiliser la Balise `#MESSAGE_PERSONNALISE`
 
 
 #### Tableau de définition.
 
 les définions se trouvent dans un fichier à l'interieur d'un dossier "message_personnalise", le nom du fichier est égale au type de message.
 
-La fonction qui contient la définition est composé de manier suivante: message_personnalise_typemessage_dist($args)
+La fonction qui contient la définition est composé de manier suivante: message_personnalise_typemessage_dist($args).
+
+S'il s'agit d'un remplacement d'inclure/noisette le nom du fichier es précédé de 'fond_' 
+et le nom de la fonction sera donc message_personnalise_fond_typemessage_dist($args)
 
 donc pour le type de message "example"
 
@@ -82,4 +100,6 @@ Placé à l'intérieur d'un boucle elle récupère l'objet et l'identifiant de l
 				#ARRAY{statut, #STATUT, qui, client}}
 				#ARRAY{option1,valeur1}
 </BOUCLE_reservation>
+
+Si les conditions pour le messages son réunis, le message encodé será affiche, sinon le texte original.
 ```

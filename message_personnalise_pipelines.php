@@ -81,19 +81,23 @@ function message_personnalise_recuperer_fond($flux) {
 	$fond = $flux['args']['fond'];
 	$contexte = $flux['data']['contexte'];
 
+	// On charge les définitions de messages type fond.
+
+	// Si pas déjà stocké on compile les défintions pour les stockés dans une global.
 	if (!isset($GLOBALS['mp_fichiers_fond'])) {
 		include_spip('inc/message_personnalise');
 
-		// Compile les messages
+		// Cherche les définitions des messages de type fond.
 		$messages_personalisables = find_all_in_path("messages_personnalises/", '/fond_');
+
 		if (is_array($messages_personalisables)) {
 			$fichiers_fond = array();
 			foreach (array_keys($messages_personalisables) as $fichier) {
 				$explode = explode('.', $fichier);
 				$nom = $explode[0];
-				if ($definition = mp_charger_definition($nom, $valeurs) AND
+				if ($definition = mp_charger_definition($nom, $contexte) AND
 						isset($definition['fond'])) {
-						$definition['nom'] = $nom;
+					$definition['nom'] = $nom;
 						$fichiers_fond[$definition['fond']] = $definition;
 				}
 			}

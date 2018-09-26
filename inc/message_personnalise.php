@@ -13,7 +13,7 @@ if (!defined('_ECRIRE_INC_VERSION')) {
 }
 
 /**
- * Regarde our un éventuel message personnalisé, sinon retourne l'original.
+ * Cherche un éventuel message personnalisé, sinon retourne l'original.
  *
  * @param string $message
  *        	Le message original.
