@@ -136,7 +136,7 @@ function chercher_message_personnalise($message, $nom, $args = array(), $traduir
 
 		$message = _L($message, $valeurs);
 
-		// in remplace les inclures
+		// On remplace les inclures
 		preg_match_all('#\*I\*(.+?)\*I\*#s', $message, $match);
 
 		foreach ($match[1] as $champ) {

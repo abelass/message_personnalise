@@ -3,10 +3,18 @@ Permet de personaliser des messages depuis l'espace prive.
 
 
 ## Créer un message personnalisable
-Depuis l'espace admin vous pouvez défini vos messagtes peronnali
+Sous "Edition/Messages personnalisable" vous trouverez tous les messages crée ainsi
+que la possibilité d'en créer un nouveau.
 
-## Ajouter un message personalisable
-dans la configuration, définissez les objets auxquelles un messages put être attaché.
+Choisissez le type de message ainsi que les déclencheurs spécifique au message, puis
+composez le message en utlisant les racoursis qui seront convertit avec les valeurs
+correspondants.
+
+## Ajouter un message personalisable ' un objet
+Dans la configuration, définissez les objets auxquelles un messages put être attaché.
+S'affichera alors sur la page de l'objet la possibilité d'y attacher un message personnalisé.
+Le message ne serait alors valable uniquement pour cet objet. Il est possible de l'attacher
+à plusieurs objets.
 
 ## Rendre les messages personnalisables
 Il est possible d'ajouter des types de messages depuis votre squelettes ou un plugin,
@@ -28,7 +36,7 @@ les définions se trouvent dans un fichier à l'interieur d'un dossier "message_
 
 La fonction qui contient la définition est composé de manier suivante: message_personnalise_typemessage_dist($args).
 
-S'il s'agit d'un remplacement d'inclure/noisette le nom du fichier es précédé de 'fond_' 
+S'il s'agit d'un remplacement d'inclure/noisette le nom du fichier es précédé de 'fond_'
 et le nom de la fonction sera donc message_personnalise_fond_typemessage_dist($args)
 
 donc pour le type de message "example"
