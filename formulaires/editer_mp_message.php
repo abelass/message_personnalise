@@ -3,7 +3,7 @@
  * Gestion du formulaire de d'édition de mp_message
  *
  * @plugin     Message personnalisé
- * @copyright  2018
+ * @copyright  2018 - 2019
  * @author     Rainer Müller
  * @licence    GNU/GPL
  * @package    SPIP\Message_personnalise\Formulaires
@@ -81,7 +81,7 @@ function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $ret
 		foreach (array_keys($messages_personalisables) as $fichier) {
 			$explode = explode('.', $fichier);
 			$nom = $explode[0];
-
+			$valeurs['_types']['manuel'] = _t('mp_message:champ_options_manuel');
 			// Charger les valeurs spécifiques.
 			if ($definition = mp_charger_definition($nom)) {
 
@@ -127,6 +127,7 @@ function formulaires_editer_mp_message_charger_dist($id_mp_message = 'new', $ret
 					}
 				}
 			}
+			asort($valeurs['_types']);
 		}
 	}
 

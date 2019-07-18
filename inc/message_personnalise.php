@@ -3,7 +3,7 @@
  * Fonctions utiles au plugin Message personnalisé
  *
  * @plugin     Message personnalisé
- * @copyright  2018
+ * @copyright  2018 - 2019
  * @author     Rainer Müller
  * @licence    GNU/GPL
  * @package    SPIP\Message_personnalise\Inc\Message_personnalise
@@ -35,71 +35,87 @@ function chercher_message_personnalise($message, $nom, $args = array(), $traduir
 		$$champ = $valeur;
 	}
 
-	$args['nom'] = $nom;
+	$args['lang'] = $nom;
 
-	// Charger les définitions spécifiques.
-	$definition = mp_charger_definition(
-			$nom,
-			array_merge(
-				$args,
-				array(
-					'objet' => $objet,
-					'nom' => $nom,
-					'qui' => $qui,
-					'id_objet' => $id_objet,
-					'message' => $message,
-					'objets_cibles' => $objets_cibles,
-					'declencheurs' => $declencheurs,
+	if (!$id_mp_message) {
+
+		// Charger les définitions spécifiques.
+		$definition = mp_charger_definition(
+				$nom,
+				array_merge(
+					$args,
+					array(
+						'objet' => $objet,
+						'nom' => $nom,
+						'qui' => $qui,
+						'id_objet' => $id_objet,
+						'message' => $message,
+						'objets_cibles' => $objets_cibles,
+						'declencheurs' => $declencheurs,
+					)
 				)
-			)
+			);
+
+		// Générer la requête.
+		$from = 'spip_mp_messages AS m LEFT JOIN spip_mp_messages_liens as ml USING (id_mp_message)';
+
+		$where = array(
+			'm.statut LIKE ' . sql_quote('publie'),
+			'lang LIKE ' .sql_quote($lang),
 		);
 
-	// Générer la requête.
-	$from = 'spip_mp_messages AS m LEFT JOIN spip_mp_messages_liens as ml USING (id_mp_message)';
+		if ($nom) {
+			$where[] = 'm.type LIKE ' . sql_quote($nom);
+		}
 
-	$where = array(
-		'm.statut LIKE ' . sql_quote('publie'),
-		'lang LIKE ' .sql_quote($lang),
-	);
-
-	if ($nom) {
-		$where[] = 'm.type LIKE ' . sql_quote($nom);
-	}
-
-	if (is_array($declencheurs)) {
-		foreach ($declencheurs as $declencheur => $valeur) {
-			if($valeur) {
-				$where[] = '(
-											m.declencheur_' . $declencheur . ' LIKE ' . sql_quote('%"' . trim($valeur) . '"%') .
-											' OR m.declencheur_' . $declencheur . '=""
-										)';
+		if (is_array($declencheurs)) {
+			foreach ($declencheurs as $declencheur => $valeur) {
+				if($valeur) {
+					$where[] = '(
+												m.declencheur_' . $declencheur . ' LIKE ' . sql_quote('%"' . trim($valeur) . '"%') .
+												' OR m.declencheur_' . $declencheur . '=""
+											)';
+				}
 			}
 		}
-	}
-
-	// Si plusieurs objets cible on cherche le premier message disponible.
-	if (is_array($objets_cibles)) {
-		foreach ($objets_cibles as $objet_cible => $id_objet_cible) {
-			if($id_objet_cible) {
-				$where[] = '(ml.objet LIKE ' . sql_quote($objet_cible) .
-					' AND ml.id_objet =' . $id_objet_cible . ' OR
-					ml.id_mp_message IS NULL)';
-			}
-			if ($texte = sql_getfetsel('texte', $from, $where)) {
-				break;
+		$texte = '';
+		// Si plusieurs objets cible on cherche le premier message disponible.
+		if (is_array($objets_cibles)) {
+			foreach ($objets_cibles as $objet_cible => $id_objet_cible) {
+				if($id_objet_cible) {
+					$where[] = '(ml.objet LIKE ' . sql_quote($objet_cible) .
+						' AND ml.id_objet =' . $id_objet_cible . ' OR
+						ml.id_mp_message IS NULL)';
+				}
+				if ($texte = sql_getfetsel('texte', $from, $where)) {
+					break;
+				}
 			}
 		}
+		// Sinon on prend un message non lié correspondnant
+		else {
+
+			$where[] = 'ml.id_mp_message IS NULL';
+			$texte = sql_getfetsel('texte', $from, $where);
+		}
 	}
-	// Sinon on prend un message non lié correspondnant
 	else {
-
-		$where[] = 'ml.id_mp_message IS NULL';
-		$texte = sql_getfetsel('texte', $from, $where);
-	}
+			$message = sql_fetsel('id_trad, texte',
+					'spip_mp_messages', 'statut LIKE "publie" AND id_mp_message=' . $id_mp_message);
+			$texte = $message['texte'];
+			$id_trad =$message['id_trad'];
+			if ($id_trad > 0 and
+				$id_trad == $id_mp_message and
+				!$texte = sql_getfetsel(
+					'id_trad, texte',
+					'spip_mp_messages',
+					'statut LIKE "publie" AND id_trad=' . $id_mp_message . ' AND lang LIKE ' . sql_quote($lang))) {
+				$texte = $message['texte'];
+			}
+		}
 
 	// On prend le message personnalisé
 	if ($texte) {
-
 		// Les infos de l'objet.
 		$requete = isset($definition['raccoursis']['requete']) ? $definition['raccoursis']['requete'] : array();
 		if ($objet && $id_objet) {

@@ -3,7 +3,7 @@
  * Préchargement des formulaires d'édition de mp_message
  *
  * @plugin     Message personnalisé
- * @copyright  2018
+ * @copyright  2018 - 2019
  * @author     Rainer Müller
  * @licence    GNU/GPL
  * @package    SPIP\Message_personnalise\Formulaires
@@ -19,7 +19,7 @@ include_spip('inc/precharger_objet');
  * Retourne les valeurs à charger pour un formulaire d'édition d'un mp_message
  *
  * Lors d'une création, certains champs peuvent être préremplis
- * (c'est le cas des traductions) 
+ * (c'est le cas des traductions)
  *
  * @param string|int $id_mp_message
  *     Identifiant de mp_message, ou "new" pour une création
@@ -36,11 +36,11 @@ function inc_precharger_mp_message_dist($id_mp_message, $id_rubrique=0, $lier_tr
 
 /**
  * Récupère les valeurs d'une traduction de référence pour la création
- * d'un mp_message (préremplissage du formulaire). 
+ * d'un mp_message (préremplissage du formulaire).
  *
  * @note
  *     Fonction facultative si pas de changement dans les traitements
- * 
+ *
  * @param string|int $id_mp_message
  *     Identifiant de mp_message, ou "new" pour une création
  * @param int $id_rubrique

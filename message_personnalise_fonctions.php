@@ -3,7 +3,7 @@
  * Fonctions utiles au plugin Message personnalisé
  *
  * @plugin     Message personnalisé
- * @copyright  2018
+ * @copyright  2018 - 2019
  * @author     Rainer Müller
  * @licence    GNU/GPL
  * @package    SPIP\Message_personnalise\Fonctions
@@ -20,14 +20,19 @@ if (!defined('_ECRIRE_INC_VERSION')) {
  * @return object
  */
 function balise_MESSAGE_PERSONNALISE_dist($p) {
-	$nom = interprete_argument_balise(1, $p);
+	$premier_argument = interprete_argument_balise(1, $p);
+
+	$nom = $premier_argument;
 	$message = interprete_argument_balise(2, $p);
 	$objets_cibles = interprete_argument_balise(3, $p);
 	$declencheurs = interprete_argument_balise(4, $p);
 	$options = interprete_argument_balise(5, $p);
+
+
 	$_id_objet = $p->boucles[$p->id_boucle]->primary;
 	$id_objet = champ_sql($_id_objet, $p);
 	$objet = $p->boucles[$p->id_boucle]->id_table;
+
 
 	$p->code = "calculer_balise_MESSAGE_PERSONNALISE('$objet', $id_objet, $nom, $message, $objets_cibles, $declencheurs, $options)";
 
@@ -52,7 +57,7 @@ function balise_MESSAGE_PERSONNALISE_dist($p) {
  *
  * @return string
  */
-function calculer_balise_MESSAGE_PERSONNALISE($objet, $id_objet, $nom, $message, $objets_cibles, $declencheurs, $options = array()) {
+function calculer_balise_MESSAGE_PERSONNALISE($objet, $id_objet, $nom, $message, $objets_cibles, $declencheurs, $options) {
 	include_spip('inc/message_personnalise');
 
 	$traduction = isset($options['traduction']) ? $options['traduction'] : '';
@@ -62,6 +67,7 @@ function calculer_balise_MESSAGE_PERSONNALISE($objet, $id_objet, $nom, $message,
 		'id_objet' => $id_objet,
 		'objets_cibles' => $objets_cibles,
 		'declencheurs' => $declencheurs,
+		'id_mp_message' => $id_mp_message,
 	);
 
 	if (is_array($options)) {

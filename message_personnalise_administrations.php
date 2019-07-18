@@ -3,7 +3,7 @@
  * Fichier gérant l'installation et désinstallation du plugin Message personnalisé
  *
  * @plugin     Message personnalisé
- * @copyright  2018
+ * @copyright  2018 - 2019
  * @author     Rainer Müller
  * @licence    GNU/GPL
  * @package    SPIP\Message_personnalise\Installation
