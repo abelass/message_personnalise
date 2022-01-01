@@ -3,7 +3,7 @@
  * Fonctions du squelette associé
  *
  * @plugin     Message personnalisé
- * @copyright  2018 - 2019
+ * @copyright  2018 - 2022
  * @author     Rainer Müller
  * @licence    GNU/GPL
  * @package    SPIP\Message_personnalise\Fonctions
